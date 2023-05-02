@@ -1,0 +1,28 @@
+{
+    "severity": "3-Moderate",
+    "subject": "subject",
+    "description": "caseDescription",
+    "customer": "Verse",
+    "endCustomerName": "",
+    "partnerTicketNumber": "",
+    "categoryType": "Technical",
+    "doNotShowInPortalFlag": true,
+    "userDetail": {
+        "userName": "Achuthananda",
+        "userPhone": "9986014033",
+        "userEmail": "apadmana@akamai.com",
+        "userCompany": "Akamai"
+    },
+    "subCategories": [
+        {
+            "displayName": "Product",
+            "subCategoryType": "product",
+            "subCategoryValue": "Adaptive Media Delivery"
+        },
+        {
+            "displayName": "Problem",
+            "subCategoryType": "problem",
+            "subCategoryValue": "Failures/Errors"
+        }
+    ]
+}
