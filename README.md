@@ -30,11 +30,11 @@ $ python -m pip install -e .
 ```
 
 
-### Using pyakamai
+# Using pyakamai
 
 ## Using AkamaiProperty
 
-# Instantiat
+### Print Hostnames
 ```
 >>> from pyakamai import pyakamai
 >>> akamaiconfig = pyakamaiObj.client('property')
@@ -44,7 +44,7 @@ $ python -m pip install -e .
 >>>     print(hostname)
 ```
 
-# Print Basic Information
+### Print Basic Information
 ```
 >>> akamaiconfig.printPropertyInfo()
 Property Name: test_bulkseach_update_1
@@ -54,20 +54,31 @@ Active Staging Version: 18
 Active Production Version: 18
 ```
 
-# Create a new version
+### Create a new version
 ```
 >>> akamaiconfig.createVersion(18)
 '78'
 ```
 
-# Get rule Tree
+### Get rule Tree
 ```
 >>>akamaiconfig.getRuleTree(18)
 {'accountId': 'act_B-C-1IE2OH8', 'contractId': 'ctr_C-1IE2OHM', 'groupId': 'grp_163363', 'propertyId': 'prp_605086', 'propertyName': 'test_bulkseach_update_1', 'propertyVersion': 18, 'etag': 'd0d28a6b71e665144955f7f7e1ff214933d119d7', 'rules':.....}
 ```
 
-# Activate the config
+### Activate the config
 ```
 >>>akamaiconfig.activateStaging(18,"testing activation",["apadmana@akamai.com"])
 True
+```
+
+## Using AkamaiEDNS
+```
+from pyakamai import pyakamai
+pyakamaiObj = pyakamai('ACCOUN-SWITCH-KEY')
+
+ednsClient = pyakamaiObj.client('edns')
+for ednszone in ednsClient.listZones()['zones']:
+    print(ednszone['zone'])
+
 ```
