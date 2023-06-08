@@ -4,7 +4,11 @@ import json
 '''
 #------------------------Datastream Start-------------------------------------------
 pyakamaiObj = pyakamai('F-AC-1526355:1-2RBL') #Eterno
+
+
 dsClient = pyakamaiObj.client('datastream')
+
+
 groupJson = dsClient.listGroups()
 print(json.dumps(groupJson,indent=2))
 
@@ -13,13 +17,18 @@ print(json.dumps(streamJson,indent=2))
 
 
 #------------------------EDNS Start-------------------------------------------
-pyakamaiObj = pyakamai('F-AC-1526355:1-2RBL') #Eterno
+from pyakamai import pyakamai
+pyakamaiObj = pyakamai('F-AC-1526355:1-2RBL')
+
 ednsClient = pyakamaiObj.client('edns')
-zoneList = ednsClient.listZones()
-print(json.dumps(zoneList,indent=2))
+for ednszone in ednsClient.listZones()['zones']:
+    print(ednszone['zone'])
 
 
 #------------------------AkamaiProperty Start-------------------------------------------
+from pyakamai import pyakamai
+import json
+
 pyakamaiObj = pyakamai('1-585UN5:1-2RBL') #Novi
 akamaiconfig = pyakamaiObj.client('property')
 akamaiconfig.config('api.hotstar.com')
@@ -36,7 +45,10 @@ mslConfig.printStreamInfo()'''
 '''#------------------------CPS Start-------------------------------------------
 pyakamaiObj = pyakamai('1-585UN5:1-2RBL') #Novi
 cpsClient = pyakamaiObj.client('cps')
+
+
 enrollments = cpsClient.listEnrollments()
+
 print(json.dumps(enrollments,indent=2))'''
 
 '''
@@ -51,6 +63,8 @@ print(json.dumps(ldsList,indent=2))
 '''#------------------------Purge Start-------------------------------------------
 pyakamaiObj = pyakamai(section='ccu') #Akamai Technologies Assets
 purgeClient = pyakamaiObj.client('purge')
+
+
 print(purgeClient.deletebyCPCode([912248],'staging'))
 print(purgeClient.deletebyCPCode([912248],'production'))
 print(purgeClient.invalidatebyCPCode([912248],'production'))
