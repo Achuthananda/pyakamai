@@ -68,7 +68,7 @@ class AkamaiProperty():
         data['propertyName'] = name
         json_data = json.dumps(data)
         propertyInfoEndPoint = "/papi/v1/search/find-by-value"
-        print(json_data)
+        #print(json_data)
         if self.accountSwitchKey:
             params = {'accountSwitchKey':self.accountSwitchKey}
             print(params)
@@ -107,6 +107,27 @@ class AkamaiProperty():
                 self._invalidconfig = True
         return None
 
+    def search(self,hostName):
+        self.name = hostName
+        data = {}
+        data['hostname'] = hostName
+        json_data = json.dumps(data)
+        propertyInfoEndPoint = "/papi/v1/search/find-by-value"
+        #print(json_data)
+        if self.accountSwitchKey:
+            params = {'accountSwitchKey':self.accountSwitchKey}
+            print(params)
+            status,prop_info = self._prdHttpCaller.postResult(propertyInfoEndPoint,json_data,params)
+        else:
+            status,prop_info = self._prdHttpCaller.postResult(propertyInfoEndPoint,json_data)
+        #print(status,prop_info)
+        if prop_info:
+            if 'versions' in prop_info and 'items' in prop_info['versions'] and len(prop_info['versions']['items']) !=0:
+                return prop_info['versions']['items'][0]['propertyName']
+            else:
+                print("No Configuration with {} Found".format(hostName))
+                return ""
+        return ""
 
     def printPropertyInfo(self):
         if self._invalidconfig == True:
