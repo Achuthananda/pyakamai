@@ -27,11 +27,15 @@ for ednszone in ednsClient.listZones()['zones']:
 
 #------------------------AkamaiProperty Start-------------------------------------------
 from pyakamai import pyakamai
-import json
 
 pyakamaiObj = pyakamai('1-585UN5:1-2RBL') #Novi
 akamaiconfig = pyakamaiObj.client('property')
-akamaiconfig.config('api.hotstar.com')
+akamaiconfig.config('apix.hotstar.com')
+akamaiconfig.getCPCodes(akamaiconfig.getProductionVersion())
+
+akamaiconfig.search('hsdashgec4.akamaized.net')
+
+
 akamaiconfig.printPropertyInfo()
 
 
