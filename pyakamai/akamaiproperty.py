@@ -453,7 +453,8 @@ class AkamaiProperty():
             'prd_KDD': 'Kona DDoS Defender',
             'prd_Site_Defender': 'Kona Site Defender',
             'prd_Rich_Media_Accel': 'Rich Media Accelerator',
-            'prd_Progressive_Media': 'Progressive Media Downloads'}
+            'prd_Progressive_Media': 'Progressive Media Downloads',
+            'prd_Site_Del': 'Dynamic Site Delivery(Legacy)'}
 
         if productId in prdMappingJson.keys():
             return prdMappingJson[productId]
@@ -474,6 +475,7 @@ class AkamaiProperty():
             status,getVersionsJson = self._prdHttpCaller.getResult(getVersionEP,params)
         else:
             status,getVersionsJson = self._prdHttpCaller.getResult(getVersionEP)
+        #print(getVersionsJson)
         for versionItem in getVersionsJson["versions"]["items"]:
             if versionItem['propertyVersion'] == version:
                 return self.getMappings(versionItem['productId'])

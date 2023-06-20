@@ -4,10 +4,14 @@ import json
 from pyakamai import pyakamai
 pyakamaiObj = pyakamai('1-585UN5:1-2RBL') #Novi
 akamaiconfig = pyakamaiObj.client('property')
-akamaiconfig.config('livep-event-eng_hin_trs_ew')
 
-product = akamaiconfig.getProduct()
-print(product)
+akamaiconfig.config('dss.sta.obsovp.tv')
+version = akamaiconfig.getProductionVersion()
+print(version)
+
+if version > 0:
+    product = akamaiconfig.getProduct()
+    print(product)
 
 
 '''

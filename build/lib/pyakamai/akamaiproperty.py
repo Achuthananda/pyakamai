@@ -452,7 +452,8 @@ class AkamaiProperty():
             'prd_Security_Failover': 'Cloud Security Failover',
             'prd_KDD': 'Kona DDoS Defender',
             'prd_Site_Defender': 'Kona Site Defender',
-            'prd_Rich_Media_Accel': 'Rich Media Accelerator'}
+            'prd_Rich_Media_Accel': 'Rich Media Accelerator',
+            'prd_Progressive_Media': 'Progressive Media Downloads'}
 
         if productId in prdMappingJson.keys():
             return prdMappingJson[productId]
