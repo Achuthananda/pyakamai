@@ -44,6 +44,7 @@ class AkamaiProperty():
         self.propertyId = ''
         self.stagingVersion = 0
         self.productionVersion = 0
+        self.lastupdatedDate = ''
         self.accountSwitchKey = ''
         self._edgerc = ''
         self._prdHttpCaller = ''
@@ -81,9 +82,11 @@ class AkamaiProperty():
                 self.propertyId = prop_info['versions']['items'][0]['propertyId']
                 self.contractId = prop_info['versions']['items'][0]['contractId']
                 self.groupId = prop_info['versions']['items'][0]['groupId']
+
                 for item in prop_info['versions']['items']:
                     if item["productionStatus"] == "ACTIVE":
                         self.productionVersion = item["propertyVersion"]
+                        self.lastupdatedDate  = item['updatedDate']
                     if item["stagingStatus"] == "ACTIVE":
                         self.stagingVersion = item["propertyVersion"]
 

@@ -1,6 +1,15 @@
 from pyakamai import pyakamai
 import json
 
+from pyakamai import pyakamai
+pyakamaiObj = pyakamai('1-585UN5:1-2RBL') #Novi
+akamaiconfig = pyakamaiObj.client('property')
+akamaiconfig.config('livep-event-eng_hin_trs_ew')
+
+product = akamaiconfig.getProduct()
+print(product)
+
+
 '''
 #------------------------Datastream Start-------------------------------------------
 pyakamaiObj = pyakamai('F-AC-1526355:1-2RBL') #Eterno
@@ -27,13 +36,12 @@ for ednszone in ednsClient.listZones()['zones']:
 
 #------------------------AkamaiProperty Start-------------------------------------------
 from pyakamai import pyakamai
-
 pyakamaiObj = pyakamai('1-585UN5:1-2RBL') #Novi
 akamaiconfig = pyakamaiObj.client('property')
-akamaiconfig.config('apix.hotstar.com')
+akamaiconfig.config('hf-apix.hotstar.com')
 akamaiconfig.getCPCodes(akamaiconfig.getProductionVersion())
 
-akamaiconfig.search('hsdashgec4.akamaized.net')
+configName = akamaiconfig.search('hsdashgec4.akamaized.net')
 
 
 akamaiconfig.printPropertyInfo()
