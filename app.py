@@ -5,7 +5,7 @@ from pyakamai import pyakamai
 pyakamaiObj = pyakamai('1-585UN5:1-2RBL') #Novi
 akamaiconfig = pyakamaiObj.client('property')
 
-akamaiconfig.config('dss.sta.obsovp.tv')
+akamaiconfig.config('sports.hotstar.com')
 version = akamaiconfig.getProductionVersion()
 print(version)
 
