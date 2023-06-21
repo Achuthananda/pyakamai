@@ -454,7 +454,8 @@ class AkamaiProperty():
             'prd_Site_Defender': 'Kona Site Defender',
             'prd_Rich_Media_Accel': 'Rich Media Accelerator',
             'prd_Progressive_Media': 'Progressive Media Downloads',
-            'prd_Site_Del': 'Dynamic Site Delivery(Legacy)'}
+            'prd_Site_Del': 'Dynamic Site Delivery(Legacy)',
+            'prd_API_Accel': 'API Acceleration'}
 
         if productId in prdMappingJson.keys():
             return prdMappingJson[productId]

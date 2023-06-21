@@ -2,14 +2,14 @@ from pyakamai import pyakamai
 import json
 
 from pyakamai import pyakamai
-pyakamaiObj = pyakamai('1-585UN5:1-2RBL') #Novi
+pyakamaiObj = pyakamai('AANA-6WETa7X') #Novi
 akamaiconfig = pyakamaiObj.client('property')
 
-akamaiconfig.config('sports.hotstar.com')
+akamaiconfig.config('img1a.fliaxcart.coam_pm_test1')
 version = akamaiconfig.getProductionVersion()
 print(version)
 
-if version > 0:
+if version >= 0:
     product = akamaiconfig.getProduct()
     print(product)
 

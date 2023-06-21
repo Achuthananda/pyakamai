@@ -443,6 +443,7 @@ class AkamaiProperty():
         prdMappingJson = {'prd_Adaptive_Media_Delivery': 'Adaptive Media Delivery',
             'prd_Obj_Delivery': 'Object Delivery',
             'prd_Download_Delivery': 'Download Delivery',
+            'prd_HTTP_Downloads': 'HTTP Downloads',
             'prd_Dynamic_Site_Del': 'Dynamic Site Delivery',
             'prd_Wholesale_Delivery': 'Wholesale Delivery',
             'prd_Site_Accel': 'Dynamic Site Accelerator',
@@ -476,7 +477,7 @@ class AkamaiProperty():
             status,getVersionsJson = self._prdHttpCaller.getResult(getVersionEP,params)
         else:
             status,getVersionsJson = self._prdHttpCaller.getResult(getVersionEP)
-        #print(getVersionsJson)
+        print(getVersionsJson)
         for versionItem in getVersionsJson["versions"]["items"]:
             if versionItem['propertyVersion'] == version:
                 return self.getMappings(versionItem['productId'])
