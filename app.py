@@ -106,10 +106,13 @@ print(json.dumps(productList,indent=2))
 
 '''
 #------------------------AkamaiCasemanagement Start-------------------------------------------
-pyakamaiObj = pyakamai('F-AC-1526355') #Jio
+from pyakamai import pyakamai
+import json
+pyakamaiObj = pyakamai('F-AC-1526355:1-2RBL') #Jio
 caseManagementClient = pyakamaiObj.client('case')
-caseList = caseManagementClient.listAllActiveCases(accountIds='F-AC-1526355')
+caseList = caseManagementClient.listAllActiveCases(accountIds='F-AC-1526355:1-2RBL')
 print(json.dumps(caseList,indent=2))
+
 '''
 
 

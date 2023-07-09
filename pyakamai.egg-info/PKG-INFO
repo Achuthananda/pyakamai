@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: pyakamai
-Version: 1.2
+Version: 1.21
 Summary: A Boto3 like SDK for Akamai
 Home-page: https://github.com/Achuthananda/pyakamai
 Author: Achuthananda M P
@@ -147,7 +147,7 @@ Provisioning Status: PROVISIONED
 ```
 
 ## Using Akamai CPS
-'''
+```
 >>> from pyakamai import pyakamai
 >>> pyakamaiObj = pyakamai('B-3-16OEUPX') 
 >>> cpsClient = pyakamaiObj.client('cps')
@@ -174,8 +174,7 @@ print(json.dumps(enrollments,indent=2))
         "disallowedTlsVersions": [
           "TLSv1",
           "TLSv1_1"]}}]}
-'''
-
+```
 
 ## Using Akamai LDS
 

@@ -312,3 +312,15 @@ print(json.dumps(enrollments,indent=2))
   },
 
 ```
+
+## Using Akamai Case Management
+
+```
+from pyakamai import pyakamai
+import json
+pyakamaiObj = pyakamai()
+caseManagementClient = pyakamaiObj.client('case')
+caseList = caseManagementClient.listAllActiveCases(accountIds='F-AC879800')
+print(json.dumps(caseList,indent=2))
+
+```
