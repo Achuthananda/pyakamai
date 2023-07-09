@@ -125,7 +125,7 @@ Provisioning Status: PROVISIONED
 ```
 
 ## Using Akamai CPS
-'''
+```
 >>> from pyakamai import pyakamai
 >>> pyakamaiObj = pyakamai('B-3-16OEUPX') 
 >>> cpsClient = pyakamaiObj.client('cps')
@@ -152,8 +152,7 @@ print(json.dumps(enrollments,indent=2))
         "disallowedTlsVersions": [
           "TLSv1",
           "TLSv1_1"]}}]}
-'''
-
+```
 
 ## Using Akamai LDS
 
