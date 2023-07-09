@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: pyakamai
-Version: 1.22
+Version: 1.23
 Summary: A Boto3 like SDK for Akamai
 Home-page: https://github.com/Achuthananda/pyakamai
 Author: Achuthananda M P
@@ -59,11 +59,12 @@ $ python -m pip install -e .
 ### Print Hostnames
 ```
 >>> from pyakamai import pyakamai
+>>> pyakamaiObj = pyakamai()
 >>> akamaiconfig = pyakamaiObj.client('property')
 >>> akamaiconfig.config('test_bulkseach_update_1')
 >>> hostnamesList = akamaiconfig.getHostNames(akamaiconfig.getProductionVersion())
->>> for hostname in hostnamesList:
->>>     print(hostname)
+>>> print(hostnamesList)
+>>> ['www.achuth-purgetest.edgesuite-staging.net', 'www.achuth-purgetest.edgesuite.net', 'www.geethapriya-purge.edgesuite-staging.net', 'www.geethapriya-purge.edgesuite.net']
 ```
 
 ### Print Basic Information
@@ -75,6 +76,50 @@ Group Id: grp_163363
 Active Staging Version: 18
 Active Production Version: 18
 ```
+
+### Get the Delivery Product
+```
+>>> from pyakamai import pyakamai
+>>> pyakamaiObj = pyakamai()
+>>> akamaiconfig = pyakamaiObj.client('property')
+>>> akamaiconfig.config('achuth-purgetest.com')
+>>> version = akamaiconfig.getProductionVersion()
+>>> 
+>>> product = akamaiconfig.getProduct()
+>>> print(product)
+Dynamic Site Accelerator
+```
+
+### List the CP Codes of the Config
+```
+>>> from pyakamai import pyakamai
+>>> pyakamaiObj = pyakamai()
+>>> akamaiconfig = pyakamaiObj.client('property')
+>>> akamaiconfig.config('achuth-purgetest.com')
+>>> akamaiconfig.getCPCodes(akamaiconfig.getProductionVersion())
+[912248,566814,4512345,127890]
+```
+
+### List the Origins of the Config
+```
+>>> from pyakamai import pyakamai
+>>> pyakamaiObj = pyakamai()
+>>> akamaiconfig = pyakamaiObj.client('property')
+>>> akamaiconfig.config('achuth-purgetest.com')
+>>> akamaiconfig.getOrigins(akamaiconfig.getProductionVersion())
+['www.gsshappylearning.com','gssflowershop.com','origin-acmp.requestcatcher.com']
+```
+
+### To Search a hostname in the Account
+```
+>>> from pyakamai import pyakamai
+>>> pyakamaiObj = pyakamai() 
+>>> akamaiconfig = pyakamaiObj.client('property')
+>>> configName = akamaiconfig.search('www.achuth-purgetest.edgesuite.net')
+>>> print(configName)
+>>> achuth-purgetest.com
+```
+
 
 ### Create a new version
 ```

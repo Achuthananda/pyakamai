@@ -1,7 +1,7 @@
 from pyakamai import pyakamai
 import json
 
-from pyakamai import pyakamai
+'''from pyakamai import pyakamai
 pyakamaiObj = pyakamai()
 akamaiconfig = pyakamaiObj.client('property')
 
@@ -11,7 +11,7 @@ print(version)
 
 if version >= 0:
     product = akamaiconfig.getProduct()
-    print(product)
+    print(product)'''
 
 
 '''
