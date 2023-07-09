@@ -2,10 +2,10 @@ from pyakamai import pyakamai
 import json
 
 from pyakamai import pyakamai
-pyakamaiObj = pyakamai('AANA-6WETa7X') #Novi
+pyakamaiObj = pyakamai()
 akamaiconfig = pyakamaiObj.client('property')
 
-akamaiconfig.config('img1a.fliaxcart.coam_pm_test1')
+akamaiconfig.config('achuth-purgetest.com')
 version = akamaiconfig.getProductionVersion()
 print(version)
 
@@ -16,7 +16,7 @@ if version >= 0:
 
 '''
 #------------------------Datastream Start-------------------------------------------
-pyakamaiObj = pyakamai('F-AC-1526355:1-2RBL') #Eterno
+pyakamaiObj = pyakamai('F-AC-1526355:1-2RBL')
 
 
 dsClient = pyakamaiObj.client('datastream')
@@ -40,12 +40,15 @@ for ednszone in ednsClient.listZones()['zones']:
 
 #------------------------AkamaiProperty Start-------------------------------------------
 from pyakamai import pyakamai
-pyakamaiObj = pyakamai('1-585UN5:1-2RBL') #Novi
+pyakamaiObj = pyakamai() 
 akamaiconfig = pyakamaiObj.client('property')
+configName = akamaiconfig.search('www.achuth-purgetest.edgesuite.net')
+
+
 akamaiconfig.config('hf-apix.hotstar.com')
 akamaiconfig.getCPCodes(akamaiconfig.getProductionVersion())
 
-configName = akamaiconfig.search('hsdashgec4.akamaized.net')
+
 
 
 akamaiconfig.printPropertyInfo()
@@ -53,7 +56,7 @@ akamaiconfig.printPropertyInfo()
 
 #------------------------MSL Start-------------------------------------------
 from pyakamai import pyakamai
-pyakamaiObj = pyakamai('1-585UN5:1-2RBL') #Novi
+pyakamaiObj = pyakamai('1-585UN5:1-2RBL') 
 mslConfig = pyakamaiObj.client('msl')
 mslConfig.stream('2002471')
 mslConfig.printStreamInfo()'''
@@ -61,7 +64,7 @@ mslConfig.printStreamInfo()'''
 
 '''#------------------------CPS Start-------------------------------------------
 from pyakamai import pyakamai
-pyakamaiObj = pyakamai('B-3-16OEUPX') #Novi
+pyakamaiObj = pyakamai('B-3-16OEUPX') 
 cpsClient = pyakamaiObj.client('cps')
 
 
@@ -96,7 +99,7 @@ print(purgeClient.invalidatebyCacheTag(['acmpjs','acmpimages'],'production'))'''
 
 '''
 #------------------------EHN Start-------------------------------------------
-pyakamaiObj = pyakamai('F-AC-2341982:1-2RBL') #Jio
+pyakamaiObj = pyakamai('F-AC-2341982:1-2RBL')
 ehnClient = pyakamaiObj.client('ehn')
 ehnList = ehnClient.getallEdgeHostNames()
 
@@ -108,7 +111,7 @@ print(json.dumps(productList,indent=2))
 #------------------------AkamaiCasemanagement Start-------------------------------------------
 from pyakamai import pyakamai
 import json
-pyakamaiObj = pyakamai('F-AC-1526355:1-2RBL') #Jio
+pyakamaiObj = pyakamai('F-AC-1526355:1-2RBL')
 caseManagementClient = pyakamaiObj.client('case')
 caseList = caseManagementClient.listAllActiveCases(accountIds='F-AC-1526355:1-2RBL')
 print(json.dumps(caseList,indent=2))

@@ -37,7 +37,7 @@ class AkamaiCaseManagement():
     def createCase(self,caseDetailsFile):  
         fp = open(caseDetailsFile,'r')
         data = json.load(fp)
-        caseobj_json = json.dumps(caseobj)
+        caseobj_json = json.dumps(data)
 
         headers = {
             "Accept": "application/json",
@@ -52,7 +52,7 @@ class AkamaiCaseManagement():
             status,response = self._prdHttpCaller.postResult(ep,caseobj_json,headers=headers)
 
         if status == 200:
-           return reponse['caseId']
+           return response['caseId']
         else:
             return ''
 
