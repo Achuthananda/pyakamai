@@ -52,6 +52,7 @@ akamaiconfig.printPropertyInfo()
 
 
 #------------------------MSL Start-------------------------------------------
+from pyakamai import pyakamai
 pyakamaiObj = pyakamai('1-585UN5:1-2RBL') #Novi
 mslConfig = pyakamaiObj.client('msl')
 mslConfig.stream('2002471')
@@ -59,7 +60,8 @@ mslConfig.printStreamInfo()'''
 
 
 '''#------------------------CPS Start-------------------------------------------
-pyakamaiObj = pyakamai('1-585UN5:1-2RBL') #Novi
+from pyakamai import pyakamai
+pyakamaiObj = pyakamai('B-3-16OEUPX') #Novi
 cpsClient = pyakamaiObj.client('cps')
 
 
@@ -69,7 +71,8 @@ print(json.dumps(enrollments,indent=2))'''
 
 '''
 #------------------------LDS Start-------------------------------------------
-pyakamaiObj = pyakamai('F-AC-2341982:1-2RBL') #Jio
+from pyakamai import pyakamai
+pyakamaiObj = pyakamai('B-3-16OEUPX') 
 ldsClient = pyakamaiObj.client('lds')
 #ldsList = ldsClient.listLogConfigurations('gtm-properties')
 ldsList = ldsClient.listLogConfigurations('cpcode-products')
@@ -77,6 +80,7 @@ print(json.dumps(ldsList,indent=2))
 '''
 
 '''#------------------------Purge Start-------------------------------------------
+from pyakamai import pyakamai
 pyakamaiObj = pyakamai(section='ccu') #Akamai Technologies Assets
 purgeClient = pyakamaiObj.client('purge')
 

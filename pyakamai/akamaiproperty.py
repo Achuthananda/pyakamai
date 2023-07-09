@@ -477,7 +477,7 @@ class AkamaiProperty():
             status,getVersionsJson = self._prdHttpCaller.getResult(getVersionEP,params)
         else:
             status,getVersionsJson = self._prdHttpCaller.getResult(getVersionEP)
-        print(getVersionsJson)
+        #print(getVersionsJson)
         for versionItem in getVersionsJson["versions"]["items"]:
             if versionItem['propertyVersion'] == version:
                 return self.getMappings(versionItem['productId'])
