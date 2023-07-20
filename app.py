@@ -1,7 +1,36 @@
 from pyakamai import pyakamai
 import json
 
-'''from pyakamai import pyakamai
+
+'''
+pyakamaiObj = pyakamai()
+
+
+akamaiconfig = pyakamaiObj.client('apidefinition')
+cacheSettings = akamaiconfig.listCacheSettings(579246,55)
+for resource_id, cacheresource in cacheSettings['resources'].items():
+    print(cacheresource)
+    item = {}
+    item['path'] = cacheresource['path']
+    item['Methods'] = cacheresource['methods']
+    item['option'] = cacheresource['option']
+    if cacheresource['maxAge'] == None:
+        item['maxage'] = 'NA'
+    else:
+        item['maxage'] = str(cacheresource['maxAge']['duration']) + cacheresource['maxAge']['unit']
+    item['serveStale'] = cacheresource['serveStale']
+    if cacheresource['preRefreshing'] == None:
+        item['preRefreshing'] = 'Not Enabled'
+    else:
+        item['preRefreshing'] = cacheresource['preRefreshing']['enabled'] + cacheresource['preRefreshing']['value']
+    item['inheritsFromEndpoint'] = cacheresource['inheritsFromEndpoint']
+    print(item)
+print("Hello World")
+'''
+
+
+'''
+from pyakamai import pyakamai
 pyakamaiObj = pyakamai()
 akamaiconfig = pyakamaiObj.client('property')
 
