@@ -49,6 +49,7 @@ class EdgeGridHttpCaller():
         status = endpoint_result.status_code
         if self.verbose: print( "LOG: GET %s %s %s" % (endpoint,status,endpoint_result.headers["content-type"]))
         self.httpErrors(endpoint_result.status_code, path, endpoint_result.json())
+        formattedjson = json.dumps(endpoint_result.json(),indent=2)
         return status,endpoint_result.json()
 
 
@@ -68,7 +69,9 @@ class EdgeGridHttpCaller():
 
         if self.verbose:
             print(">>>\n" + json.dumps(endpoint_result.json(), indent=2) + "\n<<<\n")
-        return status,endpoint_result.json()
+        formattedjson = json.dumps(endpoint_result.json(),indent=2)
+        return status,formattedjson
+    
 
     def patchResult(self, endpoint, body, parameters=None):
         """ Executes a GET API call and returns the JSON output """
@@ -84,7 +87,8 @@ class EdgeGridHttpCaller():
 
         if self.verbose:
             print(">>>\n" + json.dumps(endpoint_result.json(), indent=2) + "\n<<<\n")
-        return status,endpoint_result.json()
+        formattedjson = json.dumps(endpoint_result.json(),indent=2)
+        return status,formattedjson
 
     def postFiles(self, endpoint, file):
         """ Executes a POST API call and returns the JSON output """
@@ -115,7 +119,8 @@ class EdgeGridHttpCaller():
             return status,{}
         if self.verbose:
             print(">>>\n" + json.dumps(endpoint_result.json(), indent=2) + "\n<<<\n")
-        return status,endpoint_result.json()
+        formattedjson = json.dumps(endpoint_result.json(),indent=2)
+        return status,formattedjson
 
     def deleteResult(self, endpoint):
         """ Executes a DELETE API call and returns the JSON output """
