@@ -9,6 +9,7 @@ from .akamailds import AkamaiLDS
 from .akamaipurge import AkamaiPurge
 from .akamaiehn import AkamaiEdgeHostName
 from .akamaicasemanagement import AkamaiCaseManagement
+from .akamaiapidefinition import AkamaiAPIDefinition
 import sys
 import os
 import requests
@@ -68,7 +69,10 @@ class pyakamai():
             class_obj = AkamaiEdgeHostName(self._prdHttpCaller,self.accountSwitchKey,*args)
 
         elif product in ['case','casemanagement']:
-            class_obj = AkamaiCaseManagement(self._prdHttpCaller,self.accountSwitchKey,*args)            
+            class_obj = AkamaiCaseManagement(self._prdHttpCaller,self.accountSwitchKey,*args)     
+
+        elif product in ['apidefinition','apigateway']:
+            class_obj = AkamaiAPIDefinition(self._prdHttpCaller,self.accountSwitchKey,*args)          
 
 
         return class_obj

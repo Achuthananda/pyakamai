@@ -69,6 +69,7 @@ class EdgeGridHttpCaller():
         if self.verbose:
             print(">>>\n" + json.dumps(endpoint_result.json(), indent=2) + "\n<<<\n")
         return status,endpoint_result.json()
+    
 
     def patchResult(self, endpoint, body, parameters=None):
         """ Executes a GET API call and returns the JSON output """
@@ -84,6 +85,7 @@ class EdgeGridHttpCaller():
 
         if self.verbose:
             print(">>>\n" + json.dumps(endpoint_result.json(), indent=2) + "\n<<<\n")
+    
         return status,endpoint_result.json()
 
     def postFiles(self, endpoint, file):
