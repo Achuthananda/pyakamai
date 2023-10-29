@@ -30,13 +30,19 @@ print("Hello World")
 
 
 '''
-from pyakamai import pyakamai
-pyakamaiObj = pyakamai()
-akamaiconfig = pyakamaiObj.client('property')
+pyakamaiObj = pyakamai("1-5sss85ssUN5:1-2RBL")
 
-akamaiconfig.config('achuth-purgetest.com')
+from pyakamai import pyakamai
+pyakamaiObj = pyakamai('1-6JsHG**X')
+akamaiconfig = pyakamaiObj.client('property')
+akamaiconfig.config('TimesClone1')
 version = akamaiconfig.getProductionVersion()
-print(version)
+arr = akamaiconfig.getHostNames(version)
+for x in arr:
+    print(x)
+
+    
+
 
 if version >= 0:
     product = akamaiconfig.getProduct()
@@ -45,22 +51,50 @@ if version >= 0:
 
 '''
 #------------------------Datastream Start-------------------------------------------
-pyakamaiObj = pyakamai('F-AC-1526355:1-2RBL')
+from pyakamai import pyakamai
+import json
+pyakamaiObj = pyakamai('1-58sRBL')
 
 
+from pyakamai import pyakamai
+import json
+pyakamaiObj = pyakamai('1-5L')
 dsClient = pyakamaiObj.client('datastream')
+
+
+f = open('datastream.json','r')
+data = json.load(f)
+streampayload = json.dumps(data)
+print(streampayload)
+
+
+streamcreation = dsClient.createStream(streampayload,activate=True)
+print(streamcreation)
+
+
+datasets = dsClient.getDatasets()
+print(json.dumps(datasets,indent=2))
 
 
 groupJson = dsClient.listGroups()
 print(json.dumps(groupJson,indent=2))
 
-streamJson = dsClient.listStreams(225177)
+streamJson = dsClient.listStreams(65552)
 print(json.dumps(streamJson,indent=2))
+
+
+from pyakamai import pyakamai
+import json
+pyakamaiObj = pyakamai('1-1NC95D')
+dsClient = pyakamaiObj.client('datastream')
+
+
+
 
 
 #------------------------EDNS Start-------------------------------------------
 from pyakamai import pyakamai
-pyakamaiObj = pyakamai('F-AC-1526355:1-2RBL')
+pyakamaiObj = pyakamai('F-AC-1:1-2RBL')
 
 ednsClient = pyakamaiObj.client('edns')
 for ednszone in ednsClient.listZones()['zones']:
@@ -69,12 +103,15 @@ for ednszone in ednsClient.listZones()['zones']:
 
 #------------------------AkamaiProperty Start-------------------------------------------
 from pyakamai import pyakamai
-pyakamaiObj = pyakamai() 
+pyakamaiObj = pyakamai('1-5BL') 
 akamaiconfig = pyakamaiObj.client('property')
-configName = akamaiconfig.search('www.achuth-purgetest.edgesuite.net')
-
-
 akamaiconfig.config('hf-apix.hotstar.com')
+
+configName = akamaiconfig.search('hf-apix.hotstar.com')
+
+hostNames = akamaiconfig.getHostNames(akamaiconfig.getProductionVersion())
+
+
 akamaiconfig.getCPCodes(akamaiconfig.getProductionVersion())
 
 
@@ -85,7 +122,7 @@ akamaiconfig.printPropertyInfo()
 
 #------------------------MSL Start-------------------------------------------
 from pyakamai import pyakamai
-pyakamaiObj = pyakamai('1-585UN5:1-2RBL') 
+pyakamaiObj = pyakamai('1-5BL') 
 mslConfig = pyakamaiObj.client('msl')
 mslConfig.stream('2002471')
 mslConfig.printStreamInfo()'''
@@ -93,7 +130,7 @@ mslConfig.printStreamInfo()'''
 
 '''#------------------------CPS Start-------------------------------------------
 from pyakamai import pyakamai
-pyakamaiObj = pyakamai('B-3-16OEUPX') 
+pyakamaiObj = pyakamai('B-3X') 
 cpsClient = pyakamaiObj.client('cps')
 
 
@@ -104,7 +141,7 @@ print(json.dumps(enrollments,indent=2))'''
 '''
 #------------------------LDS Start-------------------------------------------
 from pyakamai import pyakamai
-pyakamaiObj = pyakamai('B-3-16OEUPX') 
+pyakamaiObj = pyakamai('B-3') 
 ldsClient = pyakamaiObj.client('lds')
 #ldsList = ldsClient.listLogConfigurations('gtm-properties')
 ldsList = ldsClient.listLogConfigurations('cpcode-products')
@@ -128,7 +165,7 @@ print(purgeClient.invalidatebyCacheTag(['acmpjs','acmpimages'],'production'))'''
 
 '''
 #------------------------EHN Start-------------------------------------------
-pyakamaiObj = pyakamai('F-AC-2341982:1-2RBL')
+pyakamaiObj = pyakamai('F-AC-82:1-2RBL')
 ehnClient = pyakamaiObj.client('ehn')
 ehnList = ehnClient.getallEdgeHostNames()
 
@@ -140,9 +177,9 @@ print(json.dumps(productList,indent=2))
 #------------------------AkamaiCasemanagement Start-------------------------------------------
 from pyakamai import pyakamai
 import json
-pyakamaiObj = pyakamai('F-AC-1526355:1-2RBL')
+pyakamaiObj = pyakamai()
 caseManagementClient = pyakamaiObj.client('case')
-caseList = caseManagementClient.listAllActiveCases(accountIds='F-AC-1526355:1-2RBL')
+caseList = caseManagementClient.listAllActiveCases(accountIds='1-585UN5')
 print(json.dumps(caseList,indent=2))
 
 '''
@@ -174,18 +211,6 @@ Global Traffic Management
 SiteShield
 '''
 
-
-
-
-
-
-
-
-
-
-
-
-
 '''
 def updateAllRecord(accountSwitchKey,zone,ttl):
     headers = {'Accept-Type': 'application/json'}
@@ -207,4 +232,16 @@ def updateAllRecord(accountSwitchKey,zone,ttl):
     print('*'*80)
 
 '''
+'''
+from pyakamai import pyakamai
+import json
+pyakamaiObj = pyakamai('1-51185U99999N5')
+caseManagementClient = pyakamaiObj.client('case')
+caseList = caseManagementClient.listAllCases()
+for case in caseList:
+    if case['status'] not in ['Closed','Mitigated / Solution Provided']:
+        if case['severity'] != '3-Low Impact':
+            print(case)
 
+'''
+#print(json.dumps(caseList,indent=2))

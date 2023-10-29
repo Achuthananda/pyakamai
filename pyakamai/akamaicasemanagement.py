@@ -90,15 +90,13 @@ class AkamaiCaseManagement():
         else:
             return {}
 
-    def listAllActiveCases(self,accountIds=None,limit=50,duration=30):
-        ep = '/case-management/v3/cases'
+    def listAllCases(self):
+        ep = '/case-management/v2/cases'
         params = {}
-        if accountIds != None:
-            params['accountIds'] = accountIds
         
-        params['limit'] = limit
-        params['duration'] = duration
-        params['type'] = 'ALL_ACTIVE_CASES'
+        params['type'] =  'all'
+        if self.accountSwitchKey:
+            params['accountSwitchKey']=  self.accountSwitchKey
 
         status,response = self._prdHttpCaller.getResult(ep, params)
 
@@ -124,4 +122,4 @@ class AkamaiCaseManagement():
         else:
             return {}
        
-
+#https://techdocs.akamai.com/case-mgmt/pdfs/case-mgmt-api-v2-deprecated.pdf

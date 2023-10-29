@@ -1,0 +1,173 @@
+{
+    "streamName": "Stream1",
+    "groupId": 183124,
+    "contractId": "3-RXss3Y9",
+    "notificationEmails": [
+        "apadmana@akamai.com",
+        "rpadmana@akamai.com"
+    ],
+    "properties": [
+        {
+            "propertyId": 11203592
+        }
+    ],
+    "datasetFields": [
+        {
+            "datasetFieldId": 999
+          },
+          {
+            "datasetFieldId": 1000
+          },
+          {
+            "datasetFieldId": 1002
+          },
+          {
+            "datasetFieldId": 1100
+          },
+          {
+            "datasetFieldId": 2024
+          },
+          {
+            "datasetFieldId": 1005
+          },
+          {
+            "datasetFieldId": 1006
+          },
+          {
+            "datasetFieldId": 1008
+          },
+          {
+            "datasetFieldId": 1009
+          },
+          {
+            "datasetFieldId": 1011
+          },
+          {
+            "datasetFieldId": 1012
+          },
+          {
+            "datasetFieldId": 1013
+          },
+          {
+            "datasetFieldId": 1014
+          },
+          {
+            "datasetFieldId": 1015
+          },
+          {
+            "datasetFieldId": 1016
+          },
+          {
+            "datasetFieldId": 1017
+          },
+          {
+            "datasetFieldId": 2001
+          },
+          {
+            "datasetFieldId": 2002
+          },
+          {
+            "datasetFieldId": 2003
+          },
+          {
+            "datasetFieldId": 2004
+          },
+          {
+            "datasetFieldId": 2006
+          },
+          {
+            "datasetFieldId": 2008
+          },
+          {
+            "datasetFieldId": 2009
+          },
+          {
+            "datasetFieldId": 2023
+          },
+          {
+            "datasetFieldId": 1019
+          },
+          {
+            "datasetFieldId": 1023
+          },
+          {
+            "datasetFieldId": 1031
+          },
+          {
+            "datasetFieldId": 1032
+          },
+          {
+            "datasetFieldId": 1037
+          },
+          {
+            "datasetFieldId": 2005
+          },
+          {
+            "datasetFieldId": 1033
+          },
+          {
+            "datasetFieldId": 1068
+          },
+          {
+            "datasetFieldId": 1102
+          },
+          {
+            "datasetFieldId": 1103
+          },
+          {
+            "datasetFieldId": 2007
+          },
+          {
+            "datasetFieldId": 2021
+          },
+          {
+            "datasetFieldId": 2022
+          },
+          {
+            "datasetFieldId": 2025
+          },
+          {
+            "datasetFieldId": 1082
+          },
+          {
+            "datasetFieldId": 2010
+          },
+          {
+            "datasetFieldId": 2019
+          },
+          {
+            "datasetFieldId": 1066
+          },
+          {
+            "datasetFieldId": 2012
+          },
+          {
+            "datasetFieldId": 2013
+          },
+          {
+            "datasetFieldId": 2014
+          },
+          {
+            "datasetFieldId": 2052
+          },
+          {
+            "datasetFieldId": 2053
+          }
+    ],
+    "deliveryConfiguration": {
+        "frequency": {
+            "intervalInSeconds": 30
+        },
+        "format": "JSON"
+    },
+    "destination": {
+          "destinationType": "HTTPS",
+          "compressLogs": true,
+          "authenticationType": "BASIC",
+          "displayName": "DestEndPoint1",
+          "endpoint": "https://customer.trafficpeak.come/ingest/event",
+          "userName": "username",
+          "password": "password",
+          "contentType": "application/json"
+    }
+} 

@@ -82,7 +82,7 @@ class AkamaiDataStream():
     def listStreams(self,groupId):
         """ List the type of Streams available with the Group """
 
-        listStreamsEndpoint = 'datastream-config-api/v1/log/streams'
+        listStreamsEndpoint = 'datastream-config-api/v2/log/streams'
 
         if self.accountSwitchKey:
             params = {'accountSwitchKey':self.accountSwitchKey,
@@ -153,8 +153,8 @@ class AkamaiDataStream():
             status,streamHistory = self._prdHttpCaller.getResult(streamHistoryEndpoint)
         return(streamHistory)
 
-    def getDatasets(self,templatename):
-        datasetsEndpoint = '/datastream-config-api/v1/log/datasets/template/'+ templatename
+    def getDatasets(self):
+        datasetsEndpoint = '/datastream-config-api/v2/log/datasets-fields'
         if self.accountSwitchKey:
             params = {'accountSwitchKey':self.accountSwitchKey}
             status,datasetList = self._prdHttpCaller.getResult(datasetsEndpoint,params)
@@ -163,14 +163,16 @@ class AkamaiDataStream():
         return(datasetList)
 
 
-    def createStream(self,data):
+    def createStream(self,data,activate=False):
         """ Create a Stream"""
-        createEndpoint = '/datastream-config-api/v1/log/streams'
+        createEndpoint = '/datastream-config-api/v2/log/streams'
+        params = {}
+        params['activate'] = activate
         if self.accountSwitchKey:
-            params = {'accountSwitchKey':self.accountSwitchKey}
-            cstatus,reateResponse = self._prdHttpCaller.postResult(createEndpoint,data,params)
+            params['accountSwitchKey'] = self.accountSwitchKey
+            cstatus,createResponse = self._prdHttpCaller.postResult(createEndpoint,data,params)
         else:
-            status,createResponse = self._prdHttpCaller.postResult(createEndpoint,data)
+            status,createResponse = self._prdHttpCaller.postResult(createEndpoint,data,params)
         return(createResponse)
 
     def updateStream(self,data,streamid):
