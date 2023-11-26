@@ -72,7 +72,7 @@ class AkamaiEDNS():
             return True
         else:
             print("Failed to add the record")
-            print(json.dumps(resultjson,indent=2))
+            print(json.dumps(addRecordResult,indent=2))
             return False
 
 
@@ -94,11 +94,11 @@ class AkamaiEDNS():
             status,updateRecordResult = self._prdHttpCaller.putResult(updateRecordEndPoint,recordjson,headers=headers)
 
         if status == 200:
-            print(json.dumps(resultjson,indent=2))
+            print(json.dumps(updateRecordResult,indent=2))
             return True
         else:
             print("Failed to get the records for the zone")
-            print(json.dumps(resultjson,indent=2))
+            print(json.dumps(updateRecordResult,indent=2))
             return False
        
 
@@ -112,9 +112,50 @@ class AkamaiEDNS():
         else:
             status,resultJson = self._prdHttpCaller.getResult(getZonesReecordsEP,headers=headers)
 
-        if statu == 200:
+        if status == 200:
             return resultJson
         else:
             print("Failed to get the records for the zone")
             return {}
+        
+    def getZoneSettings(self,zone):
+        headers = {'Accept-Type': 'application/json'}
+
+        getZoneSettingsEP = '/config-dns/v2/zones/{zone}'.format(zone=zone)
+        if self.accountSwitchKey:
+            params = {'accountSwitchKey':self.accountSwitchKey}
+            status,resultJson = self._prdHttpCaller.getResult(getZoneSettingsEP,headers=headers,params=params)
+        else:
+            status,resultJson = self._prdHttpCaller.getResult(getZoneSettingsEP,headers=headers)
+
+        if status == 200:
+            return resultJson
+        else:
+            print("Failed to get the settings of the zone")
+            return {}
+        
+    def updateZoneSettings(self,zone,payload):
+        headers = {
+            "accept": "application/json",
+            "content-type": "application/json"
+        }
+    
+        updateZoneEndPoint = '/config-dns/v2/zones/{zone}'.format(zone=zone)
+        
+        recordjson = json.dumps(payload)
+        print(recordjson)
+        
+        if self.accountSwitchKey:
+            params = {'accountSwitchKey':self.accountSwitchKey}
+            status,updateZoneResult = self._prdHttpCaller.putResult(updateZoneEndPoint,recordjson,headers=headers,params=params)
+        else:
+            status,updateZoneResult = self._prdHttpCaller.putResult(updateZoneEndPoint,recordjson,headers=headers)
+
+        if status == 200:
+            print(json.dumps(updateZoneResult,indent=2))
+            return True
+        else:
+            print("Failed to update the settings for the zone")
+            print(json.dumps(updateZoneResult,indent=2))
+            return False
     

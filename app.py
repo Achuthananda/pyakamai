@@ -2,6 +2,12 @@ from pyakamai import pyakamai
 import json
 
 
+from pyakamai import pyakamai
+pyakamaiObj = pyakamai('B-C-1IE2OH8')    
+ednsClient = pyakamaiObj.client('edns')
+for ednszone in ednsClient.listZones()['zones']:
+    print(ednszone['zone'])
+
 '''
 pyakamaiObj = pyakamai()
 
@@ -100,6 +106,16 @@ ednsClient = pyakamaiObj.client('edns')
 for ednszone in ednsClient.listZones()['zones']:
     print(ednszone['zone'])
 
+    
+from pyakamai import pyakamai
+pyakamaiObj = pyakamai('B-C-1IE2OH8')    
+ednsClient = pyakamaiObj.client('edns')
+for ednszone in ednsClient.listZones()['zones']:
+    print(ednszone['zone'])
+
+
+
+
 
 #------------------------AkamaiProperty Start-------------------------------------------
 from pyakamai import pyakamai
@@ -150,9 +166,8 @@ print(json.dumps(ldsList,indent=2))
 
 '''#------------------------Purge Start-------------------------------------------
 from pyakamai import pyakamai
-pyakamaiObj = pyakamai(section='ccu') #Akamai Technologies Assets
+pyakamaiObj = pyakamai(section='ccu') 
 purgeClient = pyakamaiObj.client('purge')
-
 
 print(purgeClient.deletebyCPCode([912248],'staging'))
 print(purgeClient.deletebyCPCode([912248],'production'))
