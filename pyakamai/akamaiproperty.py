@@ -275,6 +275,7 @@ class AkamaiProperty():
         data['acknowledgeAllWarnings'] = True
         data['notifyEmails'] = email_list
         data['fastPush'] = True
+        data['ignoreHttpErrors'] = False
         data['useFastFallback'] = False
 
         complianceRecord = {}
