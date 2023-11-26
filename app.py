@@ -5,8 +5,23 @@ import json
 from pyakamai import pyakamai
 pyakamaiObj = pyakamai('B-C-1IE2OH8')    
 ednsClient = pyakamaiObj.client('edns')
-for ednszone in ednsClient.listZones()['zones']:
-    print(ednszone['zone'])
+for ednszone in ednsClient.listZones(types='secondary')['zones']:
+    #print(ednszone['zone'])
+    if 'achuthtestsecondary.com' == ednszone['zone']:
+        zonesettings = ednsClient.getZoneSettings(ednszone['zone'])
+        print(json.dumps(zonesettings,indent=2))
+        
+        del zonesettings['versionId']
+        del zonesettings['lastActivationDate']
+        del zonesettings['lastModifiedDate']
+        del zonesettings['lastModifiedBy']
+        del zonesettings['activationState']
+
+        zonesettings['masters'].append("2.2.2.2") # If need to append the master NS IP.
+        zonesettings['masters'] = ["1.1.1.1","2.2.2.2","3.3.3.3"]  #If need to replace the IPs
+
+        status = ednsClient.updateZoneSettings(ednszone['zone'],payload = zonesettings)
+        print(status)
 
 '''
 pyakamaiObj = pyakamai()
