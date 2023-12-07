@@ -27,13 +27,16 @@ class AkamaiEDNS():
         self.accountSwitchKey = accountSwitchKey
         return None
 
-    def listZones(self):
+    def listZones(self,types='primary,secondary,alias'):
         listZonesEP = '/config-dns/v2/zones'
+        params = {}
+        params['types'] = types
+        params['showAll'] = True
         if self.accountSwitchKey:
-            params = {'accountSwitchKey':self.accountSwitchKey}
+            params['accountSwitchKey']= self.accountSwitchKey
             status,zonesList = self._prdHttpCaller.getResult(listZonesEP,params=params)
         else:
-            status,zonesList = self._prdHttpCaller.getResult(listZonesEP)
+            status,zonesList = self._prdHttpCaller.getResult(listZonesEP,params=params)
         if status == 200:
             return zonesList
         else:
@@ -144,12 +147,14 @@ class AkamaiEDNS():
         
         recordjson = json.dumps(payload)
         print(recordjson)
+        params = {}
+        params['skipSignAndServeSafetyCheck'] = False
         
         if self.accountSwitchKey:
-            params = {'accountSwitchKey':self.accountSwitchKey}
+            params['accountSwitchKey']= self.accountSwitchKey
             status,updateZoneResult = self._prdHttpCaller.putResult(updateZoneEndPoint,recordjson,headers=headers,params=params)
         else:
-            status,updateZoneResult = self._prdHttpCaller.putResult(updateZoneEndPoint,recordjson,headers=headers)
+            status,updateZoneResult = self._prdHttpCaller.putResult(updateZoneEndPoint,recordjson,headers=headers,params=params)
 
         if status == 200:
             print(json.dumps(updateZoneResult,indent=2))

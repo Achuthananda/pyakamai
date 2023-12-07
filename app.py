@@ -1,9 +1,17 @@
 from pyakamai import pyakamai
 import json
 
+'''accountSwitchKey = '1-5185s77UassaasN5:1-2RBL'
+pyakamaiObj = pyakamai(accountSwitchKey)
+mslConfig = pyakamaiObj.client('msl')
+streamList = mslConfig.listStreams()
+for stream in streamList['streams']:
+    print(stream['id'])
+'''
 
-from pyakamai import pyakamai
-pyakamaiObj = pyakamai('B-C-1IE2OH8')    
+
+'''from pyakamai import pyakamai
+pyakamaiObj = pyakamai('B-C-1IE2OH18')    
 ednsClient = pyakamaiObj.client('edns')
 for ednszone in ednsClient.listZones(types='secondary')['zones']:
     #print(ednszone['zone'])
@@ -22,7 +30,7 @@ for ednszone in ednsClient.listZones(types='secondary')['zones']:
 
         status = ednsClient.updateZoneSettings(ednszone['zone'],payload = zonesettings)
         print(status)
-
+'''
 '''
 pyakamaiObj = pyakamai()
 
@@ -54,9 +62,9 @@ print("Hello World")
 pyakamaiObj = pyakamai("1-5sss85ssUN5:1-2RBL")
 
 from pyakamai import pyakamai
-pyakamaiObj = pyakamai('1-6JsHG**X')
+pyakamaiObj = pyakamai('AANA-427GY4:1-5G3LB')
 akamaiconfig = pyakamaiObj.client('property')
-akamaiconfig.config('TimesClone1')
+akamaiconfig.config('www.ohbulan.com')
 version = akamaiconfig.getProductionVersion()
 arr = akamaiconfig.getHostNames(version)
 for x in arr:

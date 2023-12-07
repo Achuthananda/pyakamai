@@ -103,3 +103,30 @@ class AkamaiMSL():
                 status,updateStreamJson = self._prdHttpCaller.putResult(streamUpdateEndpoint,jsondata)
             print(updateStreamJson)
 
+    def listStreams(self):
+        """ Get list of MSL streams"""
+        listStreamsEndpoint = '/config-media-live/v2/msl-origin/streams'
+        if self.accountSwitchKey:
+            params = {'accountSwitchKey': self.accountSwitchKey,
+                    'sortKey': 'createdDate',
+                    'sortOrder': 'DESC'
+                    }
+            status,streamList = self._prdHttpCaller.getResult(listStreamsEndpoint, params)
+        else:
+            params = {'sortKey': 'createdDate',
+                    'sortOrder': 'DESC'
+                    }
+            status,streamList = self._prdHttpCaller.getResult(listStreamsEndpoint,params)
+        return streamList
+
+    def getStream(self,streamid):
+        '''Get a stream details'''
+        getStreamsEndpoint = '/config-media-live/v2/msl-origin/streams/{streamId}'.format(streamId=streamid)
+        if self.accountSwitchKey:
+            params = {'accountSwitchKey': self.accountSwitchKey
+                    }
+            status,streaminfo =  self._prdHttpCaller.getResult(getStreamsEndpoint, params)
+        else:
+            status,streaminfo =  self._prdHttpCaller.getResult(getStreamsEndpoint)
+        return streaminfo
+
