@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: pyakamai
-Version: 1.30
+Version: 1.31
 Summary: A Boto3 like SDK for Akamai
 Home-page: https://github.com/Achuthananda/pyakamai
 Author: Achuthananda M P

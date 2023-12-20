@@ -10,6 +10,22 @@ for stream in streamList['streams']:
 '''
 
 
+#List the Enrollments
+accountSwitchKey = 'F-AC-24ss66235'
+pyakamaiObj = pyakamai(accountSwitchKey)
+cpsClient = pyakamaiObj.client('cps')
+'''enrollmentList = cpsClient.listEnrollments()
+print(json.dumps(enrollmentList,indent=2))
+
+enrollmentInfo = cpsClient.getEnrollment(185528)
+print(json.dumps(enrollmentInfo,indent=2))
+'''
+
+deploymentList = cpsClient.listDeployments(158089)
+print(json.dumps(deploymentList,indent=2))
+
+
+
 '''from pyakamai import pyakamai
 pyakamaiObj = pyakamai('B-C-1IE2OH18')    
 ednsClient = pyakamaiObj.client('edns')
@@ -59,7 +75,7 @@ print("Hello World")
 
 
 '''
-pyakamaiObj = pyakamai("1-5sss85ssUN5:1-2RBL")
+pyakamaiObj = pyakamai("1-585UN5:1-2RBL")
 
 from pyakamai import pyakamai
 pyakamaiObj = pyakamai('AANA-427GY4:1-5G3LB')
@@ -142,11 +158,12 @@ for ednszone in ednsClient.listZones()['zones']:
 
 #------------------------AkamaiProperty Start-------------------------------------------
 from pyakamai import pyakamai
-pyakamaiObj = pyakamai('1-5BL') 
+pyakamaiObj = pyakamai('1-51985UsssN5:1-2RBL') 
 akamaiconfig = pyakamaiObj.client('property')
-akamaiconfig.config('hf-apix.hotstar.com')
+akamaiconfig.config('apix.aaa.com')
+akamaiconfig.getCPCodes(akamaiconfig.getProductionVersion())
 
-configName = akamaiconfig.search('hf-apix.hotstar.com')
+configName = akamaiconfig.search('hf-apassasaix.har.com')
 
 hostNames = akamaiconfig.getHostNames(akamaiconfig.getProductionVersion())
 

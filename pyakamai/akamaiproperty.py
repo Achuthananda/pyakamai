@@ -185,7 +185,8 @@ class AkamaiProperty():
         if self.accountSwitchKey:
             params["accountSwitchKey"] = self.accountSwitchKey
 
-        status,updateRuleTree = self._prdHttpCaller.putResult(updateRuleTreeEndPoint,jsondata,params)
+        status,updateRuleTree = self._prdHttpCaller.putResult(updateRuleTreeEndPoint,jsondata,params=params)
+        #print(updateRuleTree)
         if status == 200:
             return True
         else:
