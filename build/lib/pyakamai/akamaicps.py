@@ -42,7 +42,39 @@ class AkamaiCPS():
             return enrollmentsList
         else:
           return {}
-        print('*'*80)
+        
+    def getEnrollment(self,enrollmentId):
+        getEnrollmentEP = '/cps/v2/enrollments/{}'.format(str(enrollmentId))
+        headers = {"Accept": "application/vnd.akamai.cps.enrollment.v10+json"}
+
+        if self.accountSwitchKey:
+            params = {'accountSwitchKey':self.accountSwitchKey}
+            status,enrollmentInfo = self._prdHttpCaller.getResult(getEnrollmentEP,headers=headers,params=params)
+        else:
+            status,enrollmentInfo = self._prdHttpCaller.getResult(getEnrollmentEP,headers=headers)
+        
+        if status == 200:
+            return enrollmentInfo
+        else:
+          return {}
+
+        
+    def listDeployments(self,enrollmentId):
+        getdeploymentEP = '/cps/v2/enrollments/{}/deployments'.format(enrollmentId)
+        headers = {'Accept': 'application/vnd.akamai.cps.deployment.v7+json"'}
+
+        if self.accountSwitchKey:
+            params = {'accountSwitchKey':self.accountSwitchKey}
+            print("Hello")
+            status,deploymentList = self._prdHttpCaller.getResult(getdeploymentEP,headers=headers,params=params)
+        else:
+            status,deploymentList = self._prdHttpCaller.getResult(getdeploymentEP,headers=headers)
+        
+        if status == 200:
+            return deploymentList
+        else:
+          print(status,deploymentList)
+          return {}
 
 
     def createEnrollment(self,contract,enrollmentfile):
@@ -52,6 +84,7 @@ class AkamaiCPS():
         headers['Content-Type'] = 'application/vnd.akamai.cps.enrollment.v10+json'
         headers['Accept'] = 'application/vnd.akamai.cps.enrollment-status.v1+json'
 
+        params = {}
         params['Contract'] = contract
 
         fp = open(enrollmentfile,'r')

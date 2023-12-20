@@ -72,7 +72,7 @@ class AkamaiProperty():
         #print(json_data)
         if self.accountSwitchKey:
             params = {'accountSwitchKey':self.accountSwitchKey}
-            print(params)
+            #print(params)
             status,prop_info = self._prdHttpCaller.postResult(propertyInfoEndPoint,json_data,params)
         else:
             status,prop_info = self._prdHttpCaller.postResult(propertyInfoEndPoint,json_data)
