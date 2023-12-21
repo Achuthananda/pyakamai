@@ -7,6 +7,7 @@ mslConfig = pyakamaiObj.client('msl')
 streamList = mslConfig.listStreams()
 for stream in streamList['streams']:
     print(stream['id'])
+
 '''
 
 
