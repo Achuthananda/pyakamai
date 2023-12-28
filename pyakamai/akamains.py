@@ -28,37 +28,21 @@ else:
     # python2.7
     import urlparse as parse
 
-class AkamaiAPIDefinition():
+class AkamaiNetstorage():
     def __init__(self,prdHttpCaller,accountSwitchKey=None):
         self._prdHttpCaller = prdHttpCaller
         self.accountSwitchKey = accountSwitchKey
         return None
 
-    def listAPIDefinitions(self,page=1,pageSize=25):
-        ep = '/api-definitions/v2/endpoints'
+    def liststorageGroups(self):
+        ep = '/storage/v1/storage-groups'
         params = {}
-        params[page] = page
-        params[pageSize] = pageSize
         if self.accountSwitchKey:
-            params['accountSwitchKey'] = self.accountSwitchKey
-            status,result = self._prdHttpCaller.getResult(ep,params)
-        else:
-            status,result = self._prdHttpCaller.getResult(ep,params)
-        if status == 200:
-            return(result)
-        else:
-            return {}
-        
-    def listCacheSettings(self,apiEndPointId,versionNumber):
-        ep = '/api-definitions/v2/endpoints/{apiEndPointId}/versions/{versionNumber}/settings/cache'.format(apiEndPointId=apiEndPointId,versionNumber=versionNumber)
-        print(ep)
-        if self.accountSwitchKey:
-            params = {}
-            params['accountSwitchKey'] = self.accountSwitchKey
-            status,result = self._prdHttpCaller.getResult(ep,params)
+            params['accountSwitchKey']= self.accountSwitchKey
+            status,result = self._prdHttpCaller.getResult(ep,params=params)
         else:
             status,result = self._prdHttpCaller.getResult(ep)
-        if status == 200:
-            return(result)
-        else:
-            return {}
+
+        return status,result
+
+   

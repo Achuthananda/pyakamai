@@ -10,6 +10,10 @@ from .akamaipurge import AkamaiPurge
 from .akamaiehn import AkamaiEdgeHostName
 from .akamaicasemanagement import AkamaiCaseManagement
 from .akamaiapidefinition import AkamaiAPIDefinition
+from .akamaichinacdn import AkamaiChinaCDN
+from .akamaidiagnostictools import AkamaiDiagnosticTools
+from .akamains import AkamaiNetstorage
+from .akamaiss import AkamaiSiteShield
 import sys
 import os
 import requests
@@ -72,7 +76,18 @@ class pyakamai():
             class_obj = AkamaiCaseManagement(self._prdHttpCaller,self.accountSwitchKey,*args)     
 
         elif product in ['apidefinition','apigateway']:
-            class_obj = AkamaiAPIDefinition(self._prdHttpCaller,self.accountSwitchKey,*args)          
+            class_obj = AkamaiAPIDefinition(self._prdHttpCaller,self.accountSwitchKey,*args)     
 
+        elif product == 'chinacdn':
+            class_obj = AkamaiChinaCDN(self._prdHttpCaller,self.accountSwitchKey,*args)
+
+        elif product == 'diagnostictools':
+            class_obj = AkamaiDiagnosticTools(self._prdHttpCaller,self.accountSwitchKey,*args)    
+
+        elif product in ['ns','netstorage']:
+            class_obj = AkamaiNetstorage(self._prdHttpCaller,self.accountSwitchKey,*args)   
+
+        elif product in ['ss','siteshield']:
+            class_obj = AkamaiSiteShield(self._prdHttpCaller,self.accountSwitchKey,*args)    
 
         return class_obj

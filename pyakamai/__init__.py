@@ -9,3 +9,5 @@ from .akamailds import AkamaiLDS
 from .akamaipurge import AkamaiPurge
 from .akamaiehn import AkamaiEdgeHostName
 from .akamaicasemanagement import AkamaiCaseManagement
+from .akamaichinacdn import AkamaiChinaCDN
+

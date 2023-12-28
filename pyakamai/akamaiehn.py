@@ -82,6 +82,64 @@ class AkamaiEdgeHostName():
             return createEHNJson
         else:
             return {}
+        
+    def getDnsZoneHostName(ehn):
+        if ehn[-1] == '.':
+            ehn = ehn[:-1]
+        components = ehn.split('.')
+        ehnlength = len(components)
+        dnszonelist = components[ehnlength-2:ehnlength]
+        hostnamelist = components[0:ehnlength-2]
+        dnszone = '.'.join(dnszonelist)
+        hostname = '.'.join(hostnamelist)
+        return dnszone,hostname
+
+        
+    def updateTTL(self,edgehostname,ttl,comments):
+        params = {}
+        if self.accountSwitchKey:
+            params['accountSwitchKey'] = self.accountSwitchKey
+
+        patch_body = []
+        replace_ttl_json = {
+            "op": "replace",
+            "path": "/ttl",
+            "value": str(ttl)
+        }
+        patch_body.append(replace_ttl_json)
+
+        patch_json_data = json.dumps(patch_body)
+        params["comments"] = comments
+
+        dnsZone,hostname = self.getDnsZoneHostName(edgehostname)
+
+        ep = 'hapi/v1/dns-zones/{}/edge-hostnames/{}'.format(dnsZone, hostname)
+        status,updateEHNJson = self._prdHttpCaller.patchResult(ep,patch_json_data,params)
+        return status,updateEHNJson
+        
+    def changeIPVersion(self,edgehostname,ipversion,comments):
+        params = {}
+        if self.accountSwitchKey:
+            params['accountSwitchKey'] = self.accountSwitchKey
+
+        patch_body = []
+        replace_ip_json = {
+        "op": "replace",
+        "path": "/ipVersionBehavior",
+        "value": ipversion
+        }
+        patch_body.append(replace_ip_json)
+
+        patch_json_data = json.dumps(patch_body)
+        params["comments"] = comments
+
+        dnsZone,hostname = self.getDnsZoneHostName(edgehostname)
+
+        ep = 'hapi/v1/dns-zones/{}/edge-hostnames/{}'.format(dnsZone, hostname)
+        status,updateEHNJson = self._prdHttpCaller.patchResult(ep,patch_json_data,params)
+        return status,updateEHNJson
+
+
 
 
 
