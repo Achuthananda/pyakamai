@@ -14,6 +14,7 @@ from .akamaichinacdn import AkamaiChinaCDN
 from .akamaidiagnostictools import AkamaiDiagnosticTools
 from .akamains import AkamaiNetstorage
 from .akamaiss import AkamaiSiteShield
+from .akamaicloudlets import AkamaiCloudlets
 import sys
 import os
 import requests
@@ -80,6 +81,9 @@ class pyakamai():
 
         elif product == 'chinacdn':
             class_obj = AkamaiChinaCDN(self._prdHttpCaller,self.accountSwitchKey,*args)
+
+        elif product == 'cloudlets':
+            class_obj = AkamaiCloudlets(self._prdHttpCaller,self.accountSwitchKey,*args)
 
         elif product == 'diagnostictools':
             class_obj = AkamaiDiagnosticTools(self._prdHttpCaller,self.accountSwitchKey,*args)    

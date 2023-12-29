@@ -10,4 +10,5 @@ from .akamaipurge import AkamaiPurge
 from .akamaiehn import AkamaiEdgeHostName
 from .akamaicasemanagement import AkamaiCaseManagement
 from .akamaichinacdn import AkamaiChinaCDN
+from .akamaicloudlets import AkamaiCloudlets
 
