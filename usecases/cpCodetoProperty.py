@@ -21,10 +21,8 @@ groupMapping = {}
 cofigGroupMap = {}
 
 
+from pyakamai import pyakamai
 pyakamaiObj = pyakamai("1-585UN5:1-2RBL")
-
-
-pyakamaiObj = pyakamai('AANA-427GY4:1-5G3LB')
 akaconfig = pyakamaiObj.client('property')
 
 arr = akaconfig.getallProperties()

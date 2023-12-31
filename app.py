@@ -1,30 +1,57 @@
 from pyakamai import pyakamai
 import json
 
-'''accountSwitchKey = '1-5185s77UassaasN5:1-2RBL'
+
+
+from pyakamai import pyakamai
+from datetime import datetime,timedelta
+accountSwitchKey = '1-5SHA85U9N5'
+pyakamaiObj = pyakamai(accountSwitchKey)
+reportingClient = pyakamaiObj.client('reporting')
+
+data = {}
+data['objectIds'] = 8016153
+data["objectType"]=  "cpcode"
+data['metrics'] = ["allEdgeHits", "allOriginHits", "allHitsOffload"]
+
+        
+endIsoTime = datetime.today().replace(hour=0,minute=0,second=0,microsecond=0).isoformat()
+startIsoTime = (datetime.today()-timedelta(days=29)).replace(hour=0,minute=0,second=0,microsecond=0).isoformat()
+
+print(endIsoTime)
+print(startIsoTime)
+
+urlList = reportingClient.getURLHits(startIsoTime,endIsoTime,data)
+print(json.dumps(urlList,indent=2))
+
+
+
+'''
+from pyakamai import pyakamai
+accountSwitchKey = '1-5185s77UassaasN5:1-2RBL'
 pyakamaiObj = pyakamai(accountSwitchKey)
 mslConfig = pyakamaiObj.client('msl')
 streamList = mslConfig.listStreams()
 for stream in streamList['streams']:
     print(stream['id'])
-
 '''
 
 
-#List the Enrollments
+
+'''#List the Enrollments
 accountSwitchKey = 'F-AC-24ss66235'
 pyakamaiObj = pyakamai(accountSwitchKey)
-cpsClient = pyakamaiObj.client('cps')
+cpsClient = pyakamaiObj.client('cps')'''
 '''enrollmentList = cpsClient.listEnrollments()
 print(json.dumps(enrollmentList,indent=2))
 
 enrollmentInfo = cpsClient.getEnrollment(185528)
 print(json.dumps(enrollmentInfo,indent=2))
 '''
-
+'''
 deploymentList = cpsClient.listDeployments(158089)
 print(json.dumps(deploymentList,indent=2))
-
+'''
 
 
 '''from pyakamai import pyakamai
