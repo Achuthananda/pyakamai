@@ -160,7 +160,8 @@ class EdgeGridHttpCaller():
             error_msg += "ERROR: Please ensure that the URL you're calling is valid and correctly formatted\n"
             error_msg += "ERROR: or look at other examples to make sure yours matches.\n"
             error_msg += "ERROR: Problem details: %s\n" % details
-            exit(error_msg)
+            #exit(error_msg)
+            print(error_msg)
 
         error_string = None
         if "errorString" in result:
