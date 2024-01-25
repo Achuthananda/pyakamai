@@ -99,9 +99,11 @@ class AkamaiMSL():
                 params = {}
                 params["accountSwitchKey"] = self.accountSwitchKey
                 status,updateStreamJson = self._prdHttpCaller.putResult(streamUpdateEndpoint,jsondata,params)
+                return status,updateStreamJson
             else:
                 status,updateStreamJson = self._prdHttpCaller.putResult(streamUpdateEndpoint,jsondata)
-            return status,updateStreamJson
+                return status,updateStreamJson
+            
 
     def listStreams(self):
         """ Get list of MSL streams"""

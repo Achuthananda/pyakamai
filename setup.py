@@ -19,7 +19,7 @@ with open(os.path.join(project_root, 'README.md'), encoding='utf-8') as f:
 
 setuptools.setup(
      name=PACKAGE_NAME,
-     version='2.21',
+     version='2.22',
      author="Achuthananda M P",
      author_email="achuthadivine@gmail.com",
      description="A Boto3 like SDK for Akamai",
