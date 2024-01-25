@@ -93,16 +93,21 @@ class AkamaiMSL():
         print('*'*80)
 
     def updateStream(self,jsondata):
+        #print(self.provisionStatus)
         if self.provisionStatus == 'PROVISIONED':
             streamUpdateEndpoint = '/config-media-live/v2/msl-origin/streams/' + str(self.id)
             if self.accountSwitchKey:
                 params = {}
                 params["accountSwitchKey"] = self.accountSwitchKey
-                status,updateStreamJson = self._prdHttpCaller.putResult(streamUpdateEndpoint,jsondata,params)
+                status,updateStreamJson = self._prdHttpCaller.putResult(streamUpdateEndpoint,jsondata,headers=None,params=params)
+                print(status,updateStreamJson)
                 return status,updateStreamJson
             else:
-                status,updateStreamJson = self._prdHttpCaller.putResult(streamUpdateEndpoint,jsondata)
+                status,updateStreamJson = self._prdHttpCaller.putResult(streamUpdateEndpoint,jsondata,headers=None)
+                print(status,updateStreamJson)
                 return status,updateStreamJson
+        else:
+            return 400,"Not in Provisioned Status"
             
 
     def listStreams(self):
@@ -121,9 +126,9 @@ class AkamaiMSL():
             status,streamList = self._prdHttpCaller.getResult(listStreamsEndpoint,params)
         return streamList
 
-    def getStream(self,streamid):
+    def getStream(self):
         '''Get a stream details'''
-        getStreamsEndpoint = '/config-media-live/v2/msl-origin/streams/{streamId}'.format(streamId=streamid)
+        getStreamsEndpoint = '/config-media-live/v2/msl-origin/streams/{streamId}'.format(streamId=self.id)
         if self.accountSwitchKey:
             params = {'accountSwitchKey': self.accountSwitchKey
                     }
