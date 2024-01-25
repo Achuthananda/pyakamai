@@ -54,7 +54,7 @@ class EdgeGridHttpCaller():
             return status, json_data
         except json.JSONDecodeError:
             # Handle the case where the content is not valid JSON
-            print("Error decoding JSON")
+            #print("Error decoding JSON")
             return status, None
 
 
@@ -80,7 +80,7 @@ class EdgeGridHttpCaller():
             return status, json_data
         except json.JSONDecodeError:
             # Handle the case where the content is not valid JSON
-            print("Error decoding JSON")
+            #print("Error decoding JSON")
             return status, None
     
 
@@ -104,7 +104,7 @@ class EdgeGridHttpCaller():
             return status, json_data
         except json.JSONDecodeError:
             # Handle the case where the content is not valid JSON
-            print("Error decoding JSON")
+            #print("Error decoding JSON")
             return status, None
         
        
@@ -143,7 +143,7 @@ class EdgeGridHttpCaller():
             return status, json_data
         except json.JSONDecodeError:
             # Handle the case where the content is not valid JSON
-            print("Error decoding JSON")
+            #print("Error decoding JSON")
             return status, None
 
 

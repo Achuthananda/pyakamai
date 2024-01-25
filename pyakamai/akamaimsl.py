@@ -100,11 +100,11 @@ class AkamaiMSL():
                 params = {}
                 params["accountSwitchKey"] = self.accountSwitchKey
                 status,updateStreamJson = self._prdHttpCaller.putResult(streamUpdateEndpoint,jsondata,headers=None,params=params)
-                print(status,updateStreamJson)
+                #print(status,updateStreamJson)
                 return status,updateStreamJson
             else:
                 status,updateStreamJson = self._prdHttpCaller.putResult(streamUpdateEndpoint,jsondata,headers=None)
-                print(status,updateStreamJson)
+                #print(status,updateStreamJson)
                 return status,updateStreamJson
         else:
             return 400,"Not in Provisioned Status"
