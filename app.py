@@ -3,7 +3,7 @@ import json
 
 
 
-from pyakamai import pyakamai
+'''from pyakamai import pyakamai
 from datetime import datetime,timedelta
 accountSwitchKey = '1-5SHA85U9N5'
 pyakamaiObj = pyakamai(accountSwitchKey)
@@ -22,18 +22,24 @@ print(endIsoTime)
 print(startIsoTime)
 
 urlList = reportingClient.getURLHits(startIsoTime,endIsoTime,data)
-print(json.dumps(urlList,indent=2))
+print(json.dumps(urlList,indent=2))'''
 
 
 
 '''
 from pyakamai import pyakamai
-accountSwitchKey = '1-5185s77UassaasN5:1-2RBL'
+accountSwitchKey = 'B-C-1IE2OH8'
 pyakamaiObj = pyakamai(accountSwitchKey)
 mslConfig = pyakamaiObj.client('msl')
+streamInfo = mslConfig.getStream(2095508)
+print(json.dumps(streamInfo,indent=2))
 streamList = mslConfig.listStreams()
 for stream in streamList['streams']:
-    print(stream['id'])
+    if stream['id'] == 2027069:
+        print(stream['id'])
+        print(stream)
+        mslConfig.getStream(2027069)
+
 '''
 
 

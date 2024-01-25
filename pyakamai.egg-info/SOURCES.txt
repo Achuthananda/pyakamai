@@ -18,6 +18,7 @@ pyakamai/akamaimsl.py
 pyakamai/akamains.py
 pyakamai/akamaiproperty.py
 pyakamai/akamaipurge.py
+pyakamai/akamaireporting.py
 pyakamai/akamaiss.py
 pyakamai/http_calls.py
 pyakamai/pyakamai.py

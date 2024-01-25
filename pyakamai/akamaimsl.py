@@ -101,7 +101,7 @@ class AkamaiMSL():
                 status,updateStreamJson = self._prdHttpCaller.putResult(streamUpdateEndpoint,jsondata,params)
             else:
                 status,updateStreamJson = self._prdHttpCaller.putResult(streamUpdateEndpoint,jsondata)
-            print(updateStreamJson)
+            return status,updateStreamJson
 
     def listStreams(self):
         """ Get list of MSL streams"""
