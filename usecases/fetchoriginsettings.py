@@ -15,20 +15,6 @@ hostname_list = []
 originSettingsArray = []
 doneconfigs = []
 
-def getVersionofConfig(myProperty):
-    version = 0
-    prodVersion = myProperty.getProductionVersion()
-    stagingVersion = myProperty.getStagingVersion()
-    latestVersion = myProperty.latestVersion
-
-    version = prodVersion
-    if version == 0:
-        version = stagingVersion
-        if version == 0:
-            version = latestVersion
-
-    return version
-
 def readConfigList(accountSwitchKey):
     global doneconfigs
     print("Reading the config list..")
