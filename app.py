@@ -192,10 +192,14 @@ for ednszone in ednsClient.listZones()['zones']:
 
 #------------------------AkamaiProperty Start-------------------------------------------
 from pyakamai import pyakamai
-pyakamaiObj = pyakamai('1-51985UsssN5:1-2RBL') 
+switchKey= '1-585UN5:1-2RBL'
+propertyName = 'www.hotstar.com'
+version = 1208
+pyakamaiObj = pyakamai(switchKey) 
 akamaiconfig = pyakamaiObj.client('property')
-akamaiconfig.config('apix.aaa.com')
-akamaiconfig.getCPCodes(akamaiconfig.getProductionVersion())
+akamaiconfig.config(propertyName)
+cpcodeList = akamaiconfig.getCPCodes(version)
+print(cpcodeList)
 
 configName = akamaiconfig.search('hf-apassasaix.har.com')
 

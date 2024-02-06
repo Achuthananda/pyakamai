@@ -1,6 +1,6 @@
 from akamai.edgegrid import EdgeGridAuth, EdgeRc
 from .http_calls import EdgeGridHttpCaller
-from .akamaiproperty import AkamaiProperty
+from .akamaiproperty import AkamaiProperty,AkamaiPropertyManager
 from .akamaimsl import AkamaiMSL
 from .akamaidatastream import AkamaiDataStream
 from .akamaiedns import AkamaiEDNS
@@ -52,6 +52,9 @@ class pyakamai():
     def client(self, product, *args):
         if product == 'property':
             class_obj = AkamaiProperty(self._prdHttpCaller,self.accountSwitchKey,*args)
+
+        if product == 'propertymanager':
+            class_obj = AkamaiPropertyManager(self._prdHttpCaller,self.accountSwitchKey,*args)
 
         elif product == 'msl':
             class_obj = AkamaiMSL(self._prdHttpCaller,self.accountSwitchKey,*args)

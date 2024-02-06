@@ -3,8 +3,8 @@ import os
 from openpyxl import load_workbook
 import numpy as np
 import json
-from akamaiproperty import AkamaiPropertyManager
 from pyakamai import pyakamai
+import traceback
 
 
 
@@ -56,8 +56,9 @@ def getAllProperties(accountSwitchKey):
     if not os.path.isfile(fileName):
         print("Getting all the list of configs from all contracts and groups..")
         pyakamaiObj = pyakamai(accountSwitchKey)
-        akaconfig = pyakamaiObj.client('property')
-        propertiesList = akaconfig.getallProperties()
+        pmmanager = pyakamaiObj.client('propertymanager')
+        propertiesList = pmmanager.getallProperties()
+        print(propertiesList)
         np.savetxt(fileName, np.array(propertiesList), fmt="%s")
 
 def readCompletedOriginSettings(accountSwitchKey):
@@ -221,8 +222,6 @@ def fetchOriginSettings(configList,accountSwitchKey):
             print('*'*80)
             
         except Exception as e:
-            print(e)
-            print("Oops!", e.__class__, "occurred.")
             doneconfigFileName = accountSwitchKey + '_doneconfigs.txt'
             doneconfigs = [x.strip() for x in doneconfigs]
             np.savetxt(doneconfigFileName, np.array(doneconfigs), fmt="%s")
@@ -230,6 +229,8 @@ def fetchOriginSettings(configList,accountSwitchKey):
             fileName = accountSwitchKey + '_results.json'
             with open(fileName, "w") as outfile:
                 outfile.write(json_object)
+            track = traceback.format_exc()
+            print(track)
 
         
 if __name__ == "__main__":
@@ -252,12 +253,13 @@ if __name__ == "__main__":
         writeToExcel(originSettingsArray,fileName,sheetName)
 
     except Exception as e:
-        print(e)
-        print("Oops!", e.__class__, "occurred.")
+        track = traceback.format_exc()
+        print(track)
     
 
 '''
-python3 fetchoriginsettings.py --accountSwitchKey 1-585UasasN5:1-2RBL 
+python3 fetchoriginsettings.py --accountSwitchKey F-AC-4960455
+
 '''
 
 

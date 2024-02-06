@@ -618,25 +618,32 @@ class AkamaiProperty():
 
 
 class AkamaiPropertyManager():
-    def __init__(self,edgercLocation,accountSwitchKey=None):
+    def __init__(self,prdHttpCaller,accountSwitchKey=None):
+        self.name = ''
+        self.contractId = ''
+        self.groupId = ''
+        self.propertyId = ''
+        self.stagingVersion = 0
+        self.productionVersion = 0
+        self.lastupdatedDate = ''
         self.accountSwitchKey = ''
         self._edgerc = ''
         self._prdHttpCaller = ''
         self._session = ''
         self._baseurl_prd = ''
         self._host = ''
-        self._edgerc = EdgeRc(edgercLocation)
-        self._host = self._edgerc.get(section, 'host')
-        self._baseurl_prd = 'https://%s' %self._host
-        self._session = requests.Session()
-        self._session.auth = EdgeGridAuth.from_edgerc(self._edgerc, section)
-        self._session.headers.update({'User-Agent': "AkamaiCLI"})
-        self._prdHttpCaller = EdgeGridHttpCaller(self._session, debug, verbose, self._baseurl_prd)
-        if accountSwitchKey:
-            self.accountSwitchKey = accountSwitchKey
-        
-        return None
+        self._invalidconfig = False
+        self.latestVersion = 0
+        self.assetId = ''
 
+        self._criteria_stack = []
+        self._condition_json = []
+        self._condition_json1 = []
+
+        self._prdHttpCaller = prdHttpCaller
+        self.accountSwitchKey = accountSwitchKey
+        return None
+     
     def getGroups(self):
         groupsList = []
         ep = "/papi/v1/groups"
@@ -673,7 +680,7 @@ class AkamaiPropertyManager():
         if self.accountSwitchKey:
             params["accountSwitchKey"] = self.accountSwitchKey
         try:
-            status,getcpCodesJson = self._prdHttpCaller.getResult(ep,parameters=params)
+            status,getcpCodesJson = self._prdHttpCaller.getResult(ep,params=params)
             for items in getcpCodesJson["cpcodes"]["items"]:
                 cpCodeList.append(items["cpcodeId"])
         except Exception as e:
@@ -689,7 +696,7 @@ class AkamaiPropertyManager():
             params["accountSwitchKey"] = self.accountSwitchKey
         
         try: 
-            status,getpropertiesJson = self._prdHttpCaller.getResult(ep,parameters=params)
+            status,getpropertiesJson = self._prdHttpCaller.getResult(ep,params=params)
             propList = []
             if len(getpropertiesJson['properties']['items']) != 0:
                 for prop in getpropertiesJson['properties']['items']:
@@ -697,6 +704,9 @@ class AkamaiPropertyManager():
             return propList
 
         except Exception as e:
+            import traceback
+            track = traceback.format_exc()
+            print(track)
             return []
         
 
@@ -748,7 +758,7 @@ class AkamaiPropertyManager():
         if self.accountSwitchKey:
             params["accountSwitchKey"] = self.accountSwitchKey
         try:
-            status,getcbJson = self._prdHttpCaller.getResult(ep,parameters=params)
+            status,getcbJson = self._prdHttpCaller.getResult(ep,params=params)
             for item in getcbJson["customBehaviors"]["items"]:                
                 cbList[item['name']] =  item['behaviorId']
             return cbList
@@ -764,7 +774,7 @@ class AkamaiPropertyManager():
         if self.accountSwitchKey:
             params["accountSwitchKey"] = self.accountSwitchKey
         try:
-            status,getcoJson = self._prdHttpCaller.getResult(ep,parameters=params)
+            status,getcoJson = self._prdHttpCaller.getResult(ep,params=params)
             for items in getcoJson["customOverrides"]["items"]:
                 coList[items['name']] =  items['overrideId']
             return coList
