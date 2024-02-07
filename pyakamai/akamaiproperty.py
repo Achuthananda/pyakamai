@@ -704,10 +704,14 @@ class AkamaiPropertyManager():
             return propList
 
         except Exception as e:
-            import traceback
-            track = traceback.format_exc()
-            print(track)
             return []
+            '''import traceback
+            track = traceback.format_exc() 
+            print(track)
+            pass'''
+        
+        
+            
         
 
     def bulkSearch(self,jsonPathMatch,jsonPathQualifiers=None):
@@ -746,6 +750,7 @@ class AkamaiPropertyManager():
         for ctr in contractIds:
             for grp in groupIds:
                 property_list = self.getPropertiesofGroup(ctr,grp)
+                #print(property_list)
                 if len(property_list) != 0:
                     for x in property_list:
                         propertylist.append(x)
