@@ -229,9 +229,10 @@ class AkamaiProperty():
 
         if version_info[0] == 201:
             version_link = version_info[1]['versionLink']
-            start_index = version_link.find('/versions')+10
-            end_index = version_link.find('?')
-            return version_link[start_index:end_index]
+            parts = version_link.split('/')
+            # Get the second last part which contains the version number
+            version_number = parts[-1]
+            return version_number
         else:
             return 0
 

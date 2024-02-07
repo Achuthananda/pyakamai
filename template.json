@@ -1,0 +1,72 @@
+{
+    "name": "Auth - stg.example.com",
+    "children": [
+        {
+            "name": "HTTP Basic Auth",
+            "children": [],
+            "behaviors": [
+                {
+                    "name": "responseCode",
+                    "options": {
+                        "statusCode": 401
+                    }
+                },
+                {
+                    "name": "modifyOutgoingResponseHeader",
+                    "options": {
+                        "action": "ADD",
+                        "customHeaderName": "WWW-Authenticate",
+                        "headerValue": "Basic realm=\"Secure\"",
+                        "standardAddHeaderName": "OTHER"
+                    }
+                },
+                {
+                    "name": "denyAccess",
+                    "options": {
+                        "enabled": true,
+                        "reason": "Not-Authenticated"
+                    }
+                }
+            ],
+            "criteria": [
+                {
+                    "name": "requestHeader",
+                    "options": {
+                        "headerName": "Authorization",
+                        "matchOperator": "DOES_NOT_EXIST",
+                        "matchWildcardName": false
+                    }
+                },
+                {
+                    "name": "requestHeader",
+                    "options": {
+                        "headerName": "Authorization",
+                        "matchCaseSensitiveValue": true,
+                        "matchOperator": "IS_NOT_ONE_OF",
+                        "matchWildcardName": false,
+                        "matchWildcardValue": false,
+                        "values": [
+                            "Basic cssss3RnbmV3czE4OsasdasmczIXBYJHRSQG5nRSM5Mg=="
+                        ]
+                    }
+                }
+            ],
+            "criteriaMustSatisfy": "any",
+            "comments": ""
+        }
+    ],
+    "behaviors": [],
+    "criteria": [
+        {
+            "name": "hostname",
+            "options": {
+                "matchOperator": "IS_ONE_OF",
+                "values": [
+                    "stg.example.com"
+                ]
+            }
+        }
+    ],
+    "criteriaMustSatisfy": "all",
+    "comments": ""
+}

@@ -2,3 +2,5 @@ app.py
 .github
 build/*
 dist/*
+addrule.py
+creds.json
