@@ -228,14 +228,17 @@ class AkamaiProperty():
             version_info = self._prdHttpCaller.postResult(versionCreateEndPoint,json_data)
 
         if version_info[0] == 201:
+            import re
             version_link = version_info[1]['versionLink']
-            parts = version_link.split('/')
-            # Get the second last part which contains the version number
-            version_number = parts[-1]
-            return version_number
-        else:
-            return 0
-
+            #print(version_link)
+            match = re.search(r'\/versions\/(\d+)', version_link)
+            if match:
+                version_number = match.group(1)
+                print(version_number)
+                return version_number
+            else:
+                return 0
+            
     def activateStaging(self,version,notes,email_list):
         if self._invalidconfig == True:
             print("No Configuration Found")
