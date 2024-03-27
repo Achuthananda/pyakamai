@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: pyakamai
-Version: 2.32
+Version: 2.35
 Summary: A Boto3 like SDK for Akamai
 Home-page: https://github.com/Achuthananda/pyakamai
 Author: Achuthananda M P
@@ -19,6 +19,8 @@ Classifier: Programming Language :: Python :: 3.10
 Classifier: Programming Language :: Python :: 3.11
 Requires-Python: >= 3.7
 Description-Content-Type: text/markdown
+Requires-Dist: edgegrid-python
+Requires-Dist: requests
 
 # pyakamai - The Akamai SDK for Python
 [![Package Version](http://img.shields.io/pypi/v/boto3.svg?style=flat)](https://pypi.org/project/pyakamai/)

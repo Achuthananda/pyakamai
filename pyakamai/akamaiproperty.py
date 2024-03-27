@@ -457,8 +457,6 @@ class AkamaiProperty():
                 item['CPCode'] = behavior["behavior"]["options"]['value']['id']
                 item['Name'] = behavior["behavior"]["options"]['value']['name']
                 cpCodeList.append(item)
-        cpCodeList = list(dict.fromkeys(cpCodeList))
-        #print(cpCodeList)
         
         ruleTree = self.getRuleTree(int(version))
         cpCodeAdvancedList = self.extractCPCodes(ruleTree)
