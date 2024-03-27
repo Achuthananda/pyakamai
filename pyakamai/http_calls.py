@@ -56,6 +56,17 @@ class EdgeGridHttpCaller():
             # Handle the case where the content is not valid JSON
             #print("Error decoding JSON")
             return status, None
+        
+    def getFileResult(self, endpoint,params=None,headers=None):
+        """ Executes a GET API call and returns the JSON output """
+        path = endpoint
+        endpoint_result = self.session.get(parse.urljoin(self.baseurl,path), headers=headers,params=params)
+        if self.verbose: print (">>>\n" + json.dumps(endpoint_result.json(), indent=2) + "\n<<<\n")
+        status = endpoint_result.status_code
+        if self.verbose: print( "LOG: GET %s %s %s" % (endpoint,status,endpoint_result.headers["content-type"]))
+        self.httpErrors(endpoint_result.status_code, path, endpoint_result.json())
+        return status,endpoint_result.text
+
 
 
     def postResult(self, endpoint, body,params=None,headers=None):

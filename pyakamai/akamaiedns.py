@@ -121,6 +121,21 @@ class AkamaiEDNS():
             print("Failed to get the records for the zone")
             return {}
         
+    def getZoneFile(self,zone):
+        headers = {'Accept-Type': 'text/dns'}
+        getZonesReecordsEP = '/config-dns/v2/zones/{zone}/zone-file/'.format(zone=zone)
+        if self.accountSwitchKey:
+            params = {'accountSwitchKey':self.accountSwitchKey}
+            status,result = self._prdHttpCaller.getFileResult(getZonesReecordsEP,headers=headers,params=params)
+        else:
+            status,result = self._prdHttpCaller.getFileResult(getZonesReecordsEP,headers=headers)
+
+        if status == 200:
+            return result
+        else:
+            print("Failed to get the file for the zone")
+            return ''
+        
     def getZoneSettings(self,zone):
         headers = {'Accept-Type': 'application/json'}
 

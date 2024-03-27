@@ -444,6 +444,31 @@ class AkamaiProperty():
         #print(cpCodeList)
 
         return cpCodeList
+    
+    def getCPCodesWithNames(self,version):
+        if self._invalidconfig == True:
+            print("No Configuration Found")
+            return []
+        behaviorParsedList = self._getBehaviorParsedList(version)
+        cpCodeList = []
+        for behavior in behaviorParsedList:
+            if behavior["behavior"]["name"] == 'cpCode':
+                item = {}
+                item['CPCode'] = behavior["behavior"]["options"]['value']['id']
+                item['Name'] = behavior["behavior"]["options"]['value']['name']
+                cpCodeList.append(item)
+        cpCodeList = list(dict.fromkeys(cpCodeList))
+        #print(cpCodeList)
+        
+        ruleTree = self.getRuleTree(int(version))
+        cpCodeAdvancedList = self.extractCPCodes(ruleTree)
+        #print(cpCodeAdvancedList)
+        for x in cpCodeAdvancedList:
+            item = {}
+            item['CPCode'] = x
+            item['Name'] = 'Advanced'
+            cpCodeList.append(item)
+        return cpCodeList
 
     def getMappings(self,productId):
         prdMappingJson = {'prd_Adaptive_Media_Delivery': 'Adaptive Media Delivery',
