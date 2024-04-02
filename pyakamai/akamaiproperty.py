@@ -206,6 +206,8 @@ class AkamaiProperty():
 
         status,getHostnameJson = self._prdHttpCaller.getResult(getHostNameEndPoint,params)
         hostNameList = []
+        if 'hostnames' not in getHostnameJson:
+            return []
         for hostname in  getHostnameJson["hostnames"]["items"]:
             hostNameList.append(hostname["cnameFrom"])
         return hostNameList
