@@ -1,6 +1,43 @@
 from pyakamai import pyakamai
 import json
 
+'''
+from pyakamai import pyakamai
+accountSwitchKey = 'B-C-1IE2OH8'
+pyakamaiObj = pyakamai(accountSwitchKey,edgercLocation='~/.edgerc', section='default',debug=True, verbose=True)
+gtmClient = pyakamaiObj.client('gtm',)
+
+
+variablename = "v2-pages-watch.wlb-hotstar.akadns.net"
+
+variablename = 'wlb.achuth-terraform.akadns.net'
+# Splitting the variable to extract parts
+parts = variablename.split('.')
+
+# Extracting required components
+propertyname = parts[0]
+domainname = parts[1]
+fulldomainname = '.'.join(parts[1:])
+
+#gtmClient.listDomains()
+gtmClient.getProperty(fulldomainname,propertyname)'''
+
+
+from pyakamai import pyakamai
+accountSwitchKey = '1-585UN5:1-2RBL'
+pyakamaiObj = pyakamai(accountSwitchKey)
+iamClient = pyakamaiObj.client('iam')
+
+'''status,result = iamClient.listAPIClients()
+print(json.dumps(result,indent=2))'''
+
+status,result = iamClient.getCredentials('3nobqhl75s3g3jdn')
+print(json.dumps(result,indent=2))
+
+
+
+
+
 
 
 '''from pyakamai import pyakamai
@@ -254,6 +291,8 @@ print(purgeClient.deletebyURL(['http://www.achuth-purgetest.edgesuite.net/images
 print(purgeClient.invalidatebyURL(['http://www.achuth-purgetest.edgesuite.net/images/5.jpg','http://www.achuth-purgetest.edgesuite.net/images/9.jpg'],'staging'))
 print(purgeClient.deletebyCacheTag(['acmpjs','acmpimages'],'staging'))
 print(purgeClient.invalidatebyCacheTag(['acmpjs','acmpimages'],'production'))'''
+
+
 
 
 '''

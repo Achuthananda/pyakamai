@@ -16,6 +16,8 @@ from .akamains import AkamaiNetstorage
 from .akamaiss import AkamaiSiteShield
 from .akamaicloudlets import AkamaiCloudlets
 from .akamaireporting import AkamaiReporting
+from .akamaigtm import AkamaiGTM
+from .akamaiiam import AkamaiIdentity 
 import sys
 import os
 import requests
@@ -71,6 +73,9 @@ class pyakamai():
         elif product == 'lds':
             class_obj = AkamaiLDS(self._prdHttpCaller,self.accountSwitchKey,*args)
 
+        elif product == 'gtm':
+            class_obj = AkamaiGTM(self._prdHttpCaller,self.accountSwitchKey,*args)
+
         elif product == 'purge':
             class_obj = AkamaiPurge(self._prdHttpCaller,*args)
         
@@ -99,6 +104,9 @@ class pyakamai():
             class_obj = AkamaiNetstorage(self._prdHttpCaller,self.accountSwitchKey,*args)   
 
         elif product in ['ss','siteshield']:
-            class_obj = AkamaiSiteShield(self._prdHttpCaller,self.accountSwitchKey,*args)    
+            class_obj = AkamaiSiteShield(self._prdHttpCaller,self.accountSwitchKey,*args)  
+
+        elif product in ['iam']:
+            class_obj = AkamaiIdentity(self._prdHttpCaller,self.accountSwitchKey,*args)   
 
         return class_obj
