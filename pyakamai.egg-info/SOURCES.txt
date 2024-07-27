@@ -11,6 +11,8 @@ pyakamai/akamaidatastream.py
 pyakamai/akamaidiagnostictools.py
 pyakamai/akamaiedns.py
 pyakamai/akamaiehn.py
+pyakamai/akamaigtm.py
+pyakamai/akamaiiam.py
 pyakamai/akamaiksd1.py
 pyakamai/akamaiksd2.py
 pyakamai/akamailds.py
