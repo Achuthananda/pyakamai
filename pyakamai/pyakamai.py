@@ -18,6 +18,7 @@ from .akamaicloudlets import AkamaiCloudlets
 from .akamaireporting import AkamaiReporting
 from .akamaigtm import AkamaiGTM
 from .akamaiiam import AkamaiIdentity 
+from .akamaicpcode import AkamaiCPCode
 import sys
 import os
 import requests
@@ -57,6 +58,9 @@ class pyakamai():
 
         if product == 'propertymanager':
             class_obj = AkamaiPropertyManager(self._prdHttpCaller,self.accountSwitchKey,*args)
+
+        if product == 'cpcode':
+            class_obj = AkamaiCPCode(self._prdHttpCaller,self.accountSwitchKey,*args)
 
         elif product == 'msl':
             class_obj = AkamaiMSL(self._prdHttpCaller,self.accountSwitchKey,*args)

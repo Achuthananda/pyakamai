@@ -22,25 +22,125 @@ fulldomainname = '.'.join(parts[1:])
 #gtmClient.listDomains()
 gtmClient.getProperty(fulldomainname,propertyname)'''
 
-
+'''
 from pyakamai import pyakamai
 accountSwitchKey = '1-585UN5:1-2RBL'
 pyakamaiObj = pyakamai(accountSwitchKey)
 iamClient = pyakamaiObj.client('iam')
 
-'''status,result = iamClient.listAPIClients()
-print(json.dumps(result,indent=2))'''
+'''
 
-status,result = iamClient.getCredentials('3nobqhl75s3g3jdn')
+'''
+from pyakamai import pyakamai
+contractId= 'ctr_C-1IE2OHM'
+groupId='grp_163363'
+cpcodename='pyaakamaicpcode-4'
+
+
+
+accountSwitchKey = 'B-C-1IE2OH8'
+pyakamaiObj = pyakamai(accountSwitchKey)
+cpcodeClient = pyakamaiObj.client('cpcode')
+
+
+result = cpcodeClient.createCPCode(contractId,groupId,cpcodename,productId)
+print(result)
 print(json.dumps(result,indent=2))
 
 
 
+'''
+from pyakamai import pyakamai
+referencePropertyId='prp_838658'
+referencePropertyVersion ='1'
+newPropertyName = 'www.pyakamaitest13.com' #Will be reading from excel
+hostname = newPropertyName #Will be reading from excel
+cpcodename = newPropertyName
+
+ehnsuffix = 'edgekey.net'
+edgehostname = hostname +'.' +ehnsuffix ##Will be reading from excel
+accountSwitchKey = '1-6JHGX'
+contractId= 'ctr_1-1NC95D'
+groupId='grp_223702'
+productId ='prd_Fresca'
+ehnNetwork = 'ENHANCED_TLS'
+certEnrollmentID = '174936'
+ipv4v6 = 'IPV6_COMPLIANCE'
+originHostName = 'origin-www.hotstar.com' ##Will be reading from excel
+ChangeID = "Initial Onboarding"
+
+
+pyakamaiObj = pyakamai(accountSwitchKey)
+
+
+print("Now creating the EHN")
+ehnClient = pyakamaiObj.client('ehn')
+ehnjson = ehnClient.createEdgeHostname(contractId,groupId,productId,hostname,ehnsuffix,ehnNetwork,ipv4v6,certEnrollmentID)
+print(ehnjson)
+
+
+print("Now cloning the config")
+propertyManagerClient = pyakamaiObj.client('propertymanager')
+propertyId = propertyManagerClient.cloneProperty(contractId,groupId,referencePropertyId,referencePropertyVersion,newPropertyName)
+print(propertyId)
+
+
+print("Adding the hostname")
+akamaiconfig = pyakamaiObj.client('property')
+akamaiconfig.config(newPropertyName) #Pass the new config name
+version = akamaiconfig.getVersionofConfig() 
+hostnameStatus = akamaiconfig.addHostname(version,hostname,edgehostname)
+print(hostnameStatus)
+
+print("Create the CPCode")
+cpcodeClient = pyakamaiObj.client('cpcode')
+cpcodecreated = cpcodeClient.createCPCode(contractId,groupId,cpcodename,productId)
+print(cpcodecreated)
+
+
+origin_data = ''
+with open('origin.json') as json_file:
+    origin_data = json.load(json_file)
+
+new_origin_data = {}
+new_origin_data = origin_data.copy()
+new_origin_data['name'] = hostname
+new_origin_data['behaviors'][0]['options']['hostname'] = originHostName
+new_origin_data['behaviors'][1]['options']["value"]['id'] = int(cpcodecreated)
+new_origin_data['behaviors'][1]['options']["value"]['description'] = hostname
+new_origin_data['behaviors'][1]['options']["value"]['name'] = hostname
+new_origin_data['criteria'][0]['options']['values'][0] = hostname
+
+
+ruleTree = akamaiconfig.getRuleTree(version)
+ruleTree['rules']['children'].append(new_origin_data)
+propruleInfo_json = json.dumps(ruleTree,indent=2)
+
+addOriginstatus = akamaiconfig.updateRuleTree(version,propruleInfo_json)
+updateNoteStatus = akamaiconfig.addVersionNotes(version, ChangeID)
+if addOriginstatus and updateNoteStatus:
+    print("Updated the Rule successfully for the config {}".format(newPropertyName))
+    activationStatus = akamaiconfig.activateStaging(version, ChangeID, ["apadmana@akamai.com"])
+else:
+    print("Failed to update the Rule successfully for the config {}".format(newPropertyName))
+
+
+'''
+
+configList = ['cdn.blinkit.dev','blinkit.com']
+
+from pyakamai import pyakamai
+pyakamaiObj = pyakamai('F-AC-1926989')
+akamaiconfig = pyakamaiObj.client('property')
+for propetyconfig in configList:
+    akamaiconfig.config(propetyconfig)
+    version = akamaiconfig.getVersionofConfig()
+    hostNames = akamaiconfig.getCPCodes(version)
+    print(hostNames)
 
 
 
-
-'''from pyakamai import pyakamai
+from pyakamai import pyakamai
 from datetime import datetime,timedelta
 accountSwitchKey = '1-5SHA85U9N5'
 pyakamaiObj = pyakamai(accountSwitchKey)
@@ -157,6 +257,11 @@ arr = akamaiconfig.getHostNames(version)
 for x in arr:
     print(x)
 
+    
+from pyakamai import pyakamai
+pyakamaiObj = pyakamai('B-C-1IE2OH8')
+akamaiconfig = pyakamaiObj.client('property')
+akamaiconfig.config('achuth-akamaiuniversity')
     
 
 

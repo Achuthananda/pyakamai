@@ -1,0 +1,58 @@
+{
+    "name": "example.edgesuite.net",
+    "children": [],
+    "behaviors": [
+        {
+            "name": "origin",
+            "options": {
+                "originType": "CUSTOMER",
+                "hostname": "www.google.com",
+                "forwardHostHeader": "REQUEST_HOST_HEADER",
+                "cacheKeyHostname": "ORIGIN_HOSTNAME",
+                "compress": true,
+                "enableTrueClientIp": true,
+                "originCertificate": "",
+                "verificationMode": "CUSTOM",
+                "ports": "",
+                "httpPort": 80,
+                "httpsPort": 443,
+                "trueClientIpHeader": "True-Client-IP",
+                "trueClientIpClientSetting": false,
+                "originSni": true,
+                "customValidCnValues": [
+                    "{{Origin Hostname}}",
+                    "{{Forward Host Header}}"
+                ],
+                "originCertsToHonor": "STANDARD_CERTIFICATE_AUTHORITIES",
+                "standardCertificateAuthorities": [
+                    "akamai-permissive"
+                ]
+            }
+        },
+        {
+            "name": "cpCode",
+            "options": {
+                "value": {
+                    "id": 1059406,
+                    "description": "CMB-EMEA-PreProd",
+                    "products": [
+                        "Fresca"
+                    ],
+                    "name": "example.edgesuite.net"
+                }
+            }
+        }
+    ],
+    "criteria": [
+        {
+            "name": "hostname",
+            "options": {
+                "matchOperator": "IS_ONE_OF",
+                "values": [
+                    "example.edgesuite.net"
+                ]
+            }
+        }
+    ],
+    "criteriaMustSatisfy": "all"
+} 

@@ -19,6 +19,7 @@ import os
 import requests
 import logging
 import json
+import time
 from akamai.edgegrid import EdgeGridAuth, EdgeRc
 from .http_calls import EdgeGridHttpCaller
 if sys.version_info[0] >= 3:
@@ -131,6 +132,7 @@ class AkamaiProperty():
                 print("No Configuration with {} Found".format(hostName))
                 return ""
         return ""
+    
 
     def printPropertyInfo(self):
         if self._invalidconfig == True:
@@ -572,30 +574,41 @@ class AkamaiProperty():
         if self.accountSwitchKey:
             params["accountSwitchKey"] = self.accountSwitchKey
 
-        getHostnameJson = self._prdHttpCaller.getResult(getHostNameEndPoint,params)
+        getstatus,getHostnameJson = self._prdHttpCaller.getResult(getHostNameEndPoint,params)
+        print(getHostnameJson)
         property_hostnames = getHostnameJson["hostnames"]["items"]
 
-        for item in property_hostnames:
-            if item['cnameFrom'] == 'example.edgesuite.net':
-                property_hostnames.remove(item)
+        if len(property_hostnames) > 0:
+            for item in property_hostnames:
+                if item['cnameFrom'] == 'example.edgesuite.net':
+                    property_hostnames.remove(item)
 
-        for item in property_hostnames:
-            if 'edgeHostnameId' in item:
-                del item['edgeHostnameId']
+            for item in property_hostnames:
+                if 'edgeHostnameId' in item:
+                    del item['edgeHostnameId']
 
         item = {}
         item["cnameType"] = "EDGE_HOSTNAME"
         item["cnameFrom"] = hostname
         item["cnameTo"] = edgehostname
         item["certProvisioningType"] =  "CPS_MANAGED"
-        property_hostnames.append(item)
+        if len(property_hostnames) == 0:
+            property_hostnames.insert(0, item)
+        else:
+            property_hostnames.append(item)
+
+        headers = {}
+        #headers['PAPI-Use-Prefixes'] = True
+        #headers['If-Match'] = getHostnameJson['etag']
+        headers['content-type']=  'application/json'
 
         property_hostname_data = json.dumps(property_hostnames)
         addHostNamesEndPoint = '/papi/v1/properties/{property_id}/versions/{newversion}/hostnames'.format(property_id=self.propertyId,newversion=version)
 
         retrycount = 0
         while retrycount < 2:
-            status,addHostnameJson = self._prdHttpCaller.putResult(addHostNamesEndPoint,property_hostname_data,params)
+            status,addHostnameJson = self._prdHttpCaller.putResult(addHostNamesEndPoint,property_hostname_data,headers,params)
+            print(status)
             if status == 200:
                 return True
             retrycount = retrycount + 1
@@ -740,9 +753,6 @@ class AkamaiPropertyManager():
             pass'''
         
         
-            
-        
-
     def bulkSearch(self,jsonPathMatch,jsonPathQualifiers=None):
         bulkSearchEP = '/papi/v1/bulk/rules-search-requests-synch'
 
@@ -815,4 +825,41 @@ class AkamaiPropertyManager():
         except Exception as e:
             print('Exception:',e)
             return []
+        
+    def cloneProperty(self,contractId,groupId,referencePropertyId,version,newPropertyName):
+        version = int(version)
+        params = {}
+        if self.accountSwitchKey:
+            params["accountSwitchKey"] = self.accountSwitchKey
+        params["contractId"] = contractId
+        params["groupId"] = groupId
+
+
+        clone_payload = {
+            "cloneFrom": {
+                #"cloneFromVersionEtag": "27b4ec45918df9a918764c944043765576f7c9a1",
+                "copyHostnames": False,
+                "propertyId": referencePropertyId,
+                "version": version
+            },
+            "productId": "prd_Fresca",
+            "propertyName": newPropertyName
+        }
+
+        clone_data = json.dumps(clone_payload)
+       
+        cloneConfigEndPoint = '/papi/v1/properties/'
+        headers = {
+            "accept": "application/json",
+            "PAPI-Use-Prefixes": "true",
+            "content-type": "application/json"
+        }
+
+        status,version_info = self._prdHttpCaller.postResult(cloneConfigEndPoint,clone_data,params,headers=headers)
+        if status == 201:
+            newpropetyId = version_info['propertyLink'].split('?')[0].split('/')[4].split('_')[1]
+            return newpropetyId
+        else:
+            print('Failed to  Clone the config and status code is {}.'.format(status),file=sys.stderr)
+            return 0
         
