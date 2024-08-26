@@ -79,15 +79,13 @@ class AkamaiDataStream():
             status,streamTypeList = self._prdHttpCaller.getResult(listStreamTypeEndpoint)
         return(streamTypeList)
 
-    def listStreams(self,groupId):
+    def listStreams(self):
         """ List the type of Streams available with the Group """
 
         listStreamsEndpoint = 'datastream-config-api/v2/log/streams'
 
         if self.accountSwitchKey:
-            params = {'accountSwitchKey':self.accountSwitchKey,
-                    'groupId':int(groupId)
-                    }
+            params = {'accountSwitchKey':self.accountSwitchKey}
             status,streamList = self._prdHttpCaller.getResult(listStreamsEndpoint,params)
         else:
             status,streamList = self._prdHttpCaller.getResult(listStreamsEndpoint)
