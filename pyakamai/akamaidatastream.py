@@ -36,7 +36,7 @@ class AkamaiDataStream():
     
     def listGroups(self):
         """ List the groups associated with the account """
-        listGroupEndpoint = '/datastream-config-api/v1/log/groups'
+        listGroupEndpoint = '/datastream-config-api/v2/log/groups'
         if self.accountSwitchKey:
             params = {'accountSwitchKey':self.accountSwitchKey}
             status,groupList = self._prdHttpCaller.getResult(listGroupEndpoint,params)
@@ -48,7 +48,7 @@ class AkamaiDataStream():
         """ List the type of connectors available with the datastream .
         Can use one of the connector types as a destination for log delivery in a data stream configuration"""
 
-        listConnectorEndpoint = 'datastream-config-api/v1/log/connectors'
+        listConnectorEndpoint = 'datastream-config-api/v2/log/connectors'
 
         if self.accountSwitchKey:
             params = {'accountSwitchKey':self.accountSwitchKey}
@@ -58,7 +58,7 @@ class AkamaiDataStream():
         return(connectorList)
 
     def listProducts(self):
-        listProductEndpoint = 'datastream-config-api/v1/log/products'
+        listProductEndpoint = 'datastream-config-api/v2/log/products'
 
         if self.accountSwitchKey:
             params = {'accountSwitchKey':self.accountSwitchKey}
@@ -70,7 +70,7 @@ class AkamaiDataStream():
     def listStreamTypes(self):
         """ List the type of streams available with the datastream."""
 
-        listStreamTypeEndpoint = 'datastream-config-api/v1/log/streamTypes'
+        listStreamTypeEndpoint = 'datastream-config-api/v2/log/streamTypes'
 
         if self.accountSwitchKey:
             params = {'accountSwitchKey':self.accountSwitchKey}
@@ -94,7 +94,7 @@ class AkamaiDataStream():
     def listProperties(self,groupId,productId):
         """ List the type of Properties available with the Group """
 
-        listPropertiesEndpoint = 'datastream-config-api/v1/log/properties/product/'+str(productId)+'/group/'+str(groupId)
+        listPropertiesEndpoint = 'datastream-config-api/v2/log/properties/product/'+str(productId)+'/group/'+str(groupId)
 
         if self.accountSwitchKey:
             params = {
@@ -108,7 +108,7 @@ class AkamaiDataStream():
 
     def listErrorStreams(self,groupId):
         """ List the type of Error Streams available with the Group """
-        listErrorStreamsEndpoint = 'datastream-config-api/v1/log/error-streams/groups/' + str(groupId)
+        listErrorStreamsEndpoint = 'datastream-config-api/v2/log/error-streams/groups/' + str(groupId)
         if self.accountSwitchKey:
             params = {'accountSwitchKey':self.accountSwitchKey}
             status,errorstreamList = self._prdHttpCaller.getResult(listErrorStreamsEndpoint,params)
@@ -116,14 +116,11 @@ class AkamaiDataStream():
             status,errorstreamList = self._prdHttpCaller.getResult(listErrorStreamsEndpoint)
         return(errorstreamList)
 
-    def getStream(self,streamId,version=None):
+    def getStream(self,streamId):
         """Get the Details of the Stream """
 
-        if version:
-            getStreamDetailEndpoint = '/datastream-config-api/v1/log/streams/' + str(streamId) + '/version/' + str(config.version)
-        else:
-            getStreamDetailEndpoint = '/datastream-config-api/v1/log/streams/' + str(streamId)
-
+        getStreamDetailEndpoint = '/datastream-config-api/v2/log/streams/{}'.format(streamId)
+        
         if self.accountSwitchKey:
             params = {'accountSwitchKey':self.accountSwitchKey}
             status,streamDetail = self._prdHttpCaller.getResult(getStreamDetailEndpoint,params)
@@ -132,7 +129,7 @@ class AkamaiDataStream():
         return(streamDetail)
 
     def getStreamActHistory(self,streamId):
-        streamActHistoryEndpoint = '/datastream-config-api/v1/log/streams/'+ str(streamId) + '/activationHistory'
+        streamActHistoryEndpoint = '/datastream-config-api/v2/log/streams/'+ str(streamId) + '/activationHistory'
 
         if self.accountSwitchKey:
             params = {'accountSwitchKey':self.accountSwitchKey}
@@ -143,7 +140,7 @@ class AkamaiDataStream():
 
 
     def getStreamHistory(self,streamId):
-        streamHistoryEndpoint = '/datastream-config-api/v1/log/streams/'+ str(streamId) + '/history'
+        streamHistoryEndpoint = '/datastream-config-api/v2/log/streams/'+ str(streamId) + '/history'
         if self.accountSwitchKey:
             params = {'accountSwitchKey':self.accountSwitchKey}
             status,streamHistory = self._prdHttpCaller.getResult(streamHistoryEndpoint,params)
@@ -174,19 +171,24 @@ class AkamaiDataStream():
         return(createResponse)
 
     def updateStream(self,data,streamid):
-        """ Update a Stream"""
-        updateEndpoint = '/datastream-config-api/v1/log/streams/' + str(streamid)
+        print(streamid)
+        updateEndpoint = '/datastream-config-api/v2/log/streams/{}'.format(str(streamid))
+        print(updateEndpoint)
+        headers = {'content-type': 'application/json'}
         if self.accountSwitchKey:
-            params = {'accountSwitchKey':self.accountSwitchKey}
-            status,updateResponse = self._prdHttpCaller.putResult(updateEndpoint,data,params)
+            params = {}
+            params['accountSwitchKey']= self.accountSwitchKey
+            params['activate'] = 'true'
+            status,updateResponse = self._prdHttpCaller.putResult(updateEndpoint,data,headers,params)
         else:
-            status,updateResponse = self._prdHttpCaller.putResult(updateEndpoint,data)
+            status,updateResponse = self._prdHttpCaller.putResult(updateEndpoint,headers,data)
+        print(status,updateResponse)
         return(updateResponse)
 
 
     def activateStream(self,streamId):
         """ Activate a particular Datastream"""
-        activateEndpoint = '/datastream-config-api/v1/log/streams/' + str(streamId) +'/activate/'
+        activateEndpoint = '/datastream-config-api/v2/log/streams/' + str(streamId) +'/activate/'
         data = {}
         if self.accountSwitchKey:
             params = {'accountSwitchKey':self.accountSwitchKey}
@@ -197,7 +199,7 @@ class AkamaiDataStream():
 
     def deActivateStream(self,streamId):
         """ Deactivate a particular stream"""
-        deactivateEndpoint = '/datastream-config-api/v1/log/streams/' + str(streamId) +'/deactivate/'
+        deactivateEndpoint = '/datastream-config-api/v2/log/streams/' + str(streamId) +'/deactivate/'
         data = {}
         if self.accountSwitchKey:
             params = {'accountSwitchKey':self.accountSwitchKey}
@@ -208,7 +210,7 @@ class AkamaiDataStream():
 
     def deleteStream(self,streamId):
         """ Delete a particular stream"""
-        deleteEndpoint = '/datastream-config-api/v1/log/streams/' + str(streamId)
+        deleteEndpoint = '/datastream-config-api/v2/log/streams/' + str(streamId)
         if self.accountSwitchKey:
             params = {'accountSwitchKey':self.accountSwitchKey}
             status,deleteResponse = self._prdHttpCaller.deleteResult(deleteEndpoint,params)

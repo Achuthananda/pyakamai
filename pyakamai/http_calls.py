@@ -57,7 +57,7 @@ class EdgeGridHttpCaller():
             #print("Error decoding JSON")
             return status, None
         
-    def getFileResult(self, endpoint,params=None,headers=None):
+    def getFileResult(self, endpoint,headers=None,params=None):
         """ Executes a GET API call and returns the JSON output """
         path = endpoint
         endpoint_result = self.session.get(parse.urljoin(self.baseurl,path), headers=headers,params=params)

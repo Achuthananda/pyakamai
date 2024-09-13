@@ -561,6 +561,7 @@ class AkamaiProperty():
         return status
 
     def addHostname(self,version,hostname,edgehostname):
+        print(version,hostname,edgehostname)
         if self._invalidconfig == True:
             print("No Configuration Found")
             return []
@@ -589,13 +590,20 @@ class AkamaiProperty():
 
         item = {}
         item["cnameType"] = "EDGE_HOSTNAME"
+        print('*'*80)
+        print(hostname,edgehostname)
         item["cnameFrom"] = hostname
         item["cnameTo"] = edgehostname
         item["certProvisioningType"] =  "CPS_MANAGED"
+        print('*'*80)
+        print(item)
         if len(property_hostnames) == 0:
             property_hostnames.insert(0, item)
         else:
             property_hostnames.append(item)
+
+        print('----'*80)
+        print(property_hostnames)
 
         headers = {}
         #headers['PAPI-Use-Prefixes'] = True
