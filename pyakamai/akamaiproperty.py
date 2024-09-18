@@ -437,6 +437,12 @@ class AkamaiProperty():
         for behavior in behaviorParsedList:
             if behavior["behavior"]["name"] == 'cpCode':
                 cpCodeList.append(behavior["behavior"]["options"]['value']['id'])
+
+            if behavior["behavior"]["name"] == 'imageManager':
+                if 'cpCodeOriginal' in behavior["behavior"]["options"]:
+                    cpCodeList.append(behavior["behavior"]["options"]['cpCodeOriginal']['id'])
+                if 'cpCodeTransformed' in behavior["behavior"]["options"]:
+                    cpCodeList.append(behavior["behavior"]["options"]['cpCodeTransformed']['id'])
         cpCodeList = list(dict.fromkeys(cpCodeList))
         #print(cpCodeList)
         

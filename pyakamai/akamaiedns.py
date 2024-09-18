@@ -122,7 +122,7 @@ class AkamaiEDNS():
             return {}
         
     def getZoneFile(self,zone):
-        headers = {'Accept-Type': 'text/dns'}
+        headers = {'Accept': 'text/dns'}
         getZonesReecordsEP = '/config-dns/v2/zones/{zone}/zone-file/'.format(zone=zone)
         if self.accountSwitchKey:
             params = {'accountSwitchKey':self.accountSwitchKey}
