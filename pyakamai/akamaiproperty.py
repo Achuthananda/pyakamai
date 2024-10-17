@@ -423,6 +423,8 @@ class AkamaiProperty():
             if behavior["behavior"]["name"] == 'origin':
                 if behavior["behavior"]["options"]['originType'] == 'CUSTOMER':
                     originlist.append(behavior["behavior"]["options"]['hostname'])
+                elif behavior["behavior"]["options"]['originType'] == 'MEDIA_SERVICE_LIVE':
+                    originlist.append(behavior["behavior"]["options"]['mslorigin'])
                 else:
                     originlist.append(behavior["behavior"]["options"]['netStorage']['downloadDomainName'])
         originlist = list(dict.fromkeys(originlist))
@@ -710,6 +712,7 @@ class AkamaiPropertyManager():
         else:
             status,getgroupJson = self._prdHttpCaller.getResult(ep)
         print(getgroupJson)
+        return getgroupJson
         for items in getgroupJson["groups"]["items"]:
             groupsList.append(items["groupId"])
         return groupsList
@@ -796,19 +799,38 @@ class AkamaiPropertyManager():
         except Exception as e:
             return []
     
-    def getallProperties(self):
+
+    def getallProperties1(self):
         propertylist = []
         groupIds = self.getGroups()
         contractIds = self.getContracts()
         for ctr in contractIds:
+            print("Fetching Properties from Contract {}".format(ctr))
             for grp in groupIds:
+                print("Fetching Properties from Group {}".format(grp))
                 property_list = self.getPropertiesofGroup(ctr,grp)
-                #print(property_list)
+                print(property_list)
                 if len(property_list) != 0:
                     for x in property_list:
                         propertylist.append(x)
+                print("*"*80)
         return propertylist
-
+    
+    def getallProperties(self):
+        propertylist = []
+        groupJson = self.getGroups()
+        for items in groupJson["groups"]["items"]:
+            print("Fetching from group {}".format(items["groupId"]))
+            for ctrId in items["contractIds"]:
+                print("Fetching from Contract {}".format(ctrId))
+                property_list = self.getPropertiesofGroup(ctrId,items["groupId"])
+                print(property_list)
+                if len(property_list) != 0:
+                    for x in property_list:
+                        propertylist.append(x)
+            print("*"*80)
+        return propertylist
+        
     def getCustomBehaviors(self):
         cbList = {}
         ep = '/papi/v1/custom-behaviors'
