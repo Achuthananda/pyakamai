@@ -14,6 +14,7 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 """
+import sys
 import os
 import requests
 import logging
@@ -85,7 +86,7 @@ class AkamaiCPS():
         headers['Accept'] = 'application/vnd.akamai.cps.enrollment-status.v1+json'
 
         params = {}
-        params['Contract'] = contract
+        params['contractId'] = contract
 
         fp = open(enrollmentfile,'r')
         data = json.load(fp)
@@ -94,10 +95,7 @@ class AkamaiCPS():
         if self.accountSwitchKey:
             params['accountSwitchKey'] = self.accountSwitchKey
 
-        status,resultjson = self._prdHttpCaller.postResult(createEnrollmentEP,datajson,headers=headers,params=params)
-        if status == 202:
-            return resultjson
-        else:
-            return {}
+        status,resultjson = self._prdHttpCaller.postResult(createEnrollmentEP,datajson,params=params,headers=headers)
+        return status,resultjson
 
 

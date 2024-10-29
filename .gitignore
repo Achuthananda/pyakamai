@@ -5,3 +5,4 @@ build/*
 dist/*
 addrule.py
 creds.json
+enrollment_data.json
