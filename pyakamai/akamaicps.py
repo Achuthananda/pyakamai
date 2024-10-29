@@ -78,7 +78,7 @@ class AkamaiCPS():
           return {}
 
 
-    def createEnrollment(self,contract,enrollmentfile):
+    def createEnrollment(self,contract,datajson):
         createEnrollmentEP = '/cps/v2/enrollments'
 
         headers = {}
@@ -88,10 +88,6 @@ class AkamaiCPS():
         params = {}
         params['contractId'] = contract
 
-        fp = open(enrollmentfile,'r')
-        data = json.load(fp)
-
-        datajson = json.dumps(data)
         if self.accountSwitchKey:
             params['accountSwitchKey'] = self.accountSwitchKey
 
