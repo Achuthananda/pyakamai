@@ -19,6 +19,7 @@ from .akamaireporting import AkamaiReporting
 from .akamaigtm import AkamaiGTM
 from .akamaiiam import AkamaiIdentity 
 from .akamaicpcode import AkamaiCPCode
+from .akamaialerts import AkamaiAlerts
 import sys
 import os
 import requests
@@ -112,5 +113,8 @@ class pyakamai():
 
         elif product in ['iam']:
             class_obj = AkamaiIdentity(self._prdHttpCaller,self.accountSwitchKey,*args)   
+        
+        elif product in ['alerts']:
+            class_obj = AkamaiAlerts(self._prdHttpCaller,self.accountSwitchKey,*args)  
 
         return class_obj

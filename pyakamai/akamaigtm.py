@@ -73,5 +73,19 @@ class AkamaiGTM():
         else:
             status,getresultjson = self._prdHttpCaller.getResult(getEndpoint)
         return(getresultjson)
+    
+    def getTargets(self,domainName,propertyName):
+        getEndpoint = '/config-gtm/v1/domains/{}/properties/{}'.format(domainName,propertyName)
+        if self.accountSwitchKey:
+            params = {'accountSwitchKey':self.accountSwitchKey}
+            status,getresultjson = self._prdHttpCaller.getResult(getEndpoint,params)
+        else:
+            status,getresultjson = self._prdHttpCaller.getResult(getEndpoint)
+
+        targetArray = []
+        for targets in getresultjson['trafficTargets']:
+            targetArray.append(targets['handoutCName'])
+        
+        return targetArray
 
     
