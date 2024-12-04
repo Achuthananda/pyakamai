@@ -1,6 +1,7 @@
 README.md
 setup.py
 pyakamai/__init__.py
+pyakamai/akamaialerts.py
 pyakamai/akamaiapidefinition.py
 pyakamai/akamaicasemanagement.py
 pyakamai/akamaichinacdn.py

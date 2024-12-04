@@ -35,7 +35,7 @@ class AkamaiCPS():
 
         if self.accountSwitchKey:
             params = {'accountSwitchKey':self.accountSwitchKey}
-            status,enrollmentsList = self._prdHttpCaller.getResult(getEnrollmentEP,headers=headers,params=params)
+            status,enrollmentsList = self._prdHttpCaller.getResult(getEnrollmentEP,params=params,headers=headers)
         else:
             status,enrollmentsList = self._prdHttpCaller.getResult(getEnrollmentEP,headers=headers)
         
@@ -60,14 +60,35 @@ class AkamaiCPS():
           return {}
 
         
-    def listDeployments(self,enrollmentId):
-        getdeploymentEP = '/cps/v2/enrollments/{}/deployments'.format(enrollmentId)
-        headers = {'Accept': 'application/vnd.akamai.cps.deployment.v7+json"'}
+    def listDeploymentsProduction(self,enrollmentId):
+        getdeploymentEP = '/cps/v2/enrollments/{}/deployments/production'.format(enrollmentId)
+        headers = {'Accept': 'application/vnd.akamai.cps.deployment.v8+json'}
+
+        print(getdeploymentEP)
+        print("Hello12")
 
         if self.accountSwitchKey:
             params = {'accountSwitchKey':self.accountSwitchKey}
-            print("Hello")
-            status,deploymentList = self._prdHttpCaller.getResult(getdeploymentEP,headers=headers,params=params)
+            status,deploymentList = self._prdHttpCaller.getResult(getdeploymentEP,params=params,headers=headers)
+        else:
+            status,deploymentList = self._prdHttpCaller.getResult(getdeploymentEP,headers=headers)
+        
+        if status == 200:
+            return deploymentList
+        else:
+          print(status,deploymentList)
+          return {}
+        
+    def listDeploymentsStaging(self,enrollmentId):
+        getdeploymentEP = '/cps/v2/enrollments/{}/deployments/staging'.format(enrollmentId)
+        headers = {'Accept': 'application/vnd.akamai.cps.deployment.v9+json'}
+
+        print(getdeploymentEP)
+        print("Hello12")
+
+        if self.accountSwitchKey:
+            params = {'accountSwitchKey':self.accountSwitchKey}
+            status,deploymentList = self._prdHttpCaller.getResult(getdeploymentEP,params=params,headers=headers)
         else:
             status,deploymentList = self._prdHttpCaller.getResult(getdeploymentEP,headers=headers)
         
