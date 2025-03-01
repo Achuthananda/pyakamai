@@ -136,4 +136,19 @@ class AkamaiMSL():
         else:
             status,streaminfo =  self._prdHttpCaller.getResult(getStreamsEndpoint)
         return streaminfo
+    
+    def createStream(self,jsondata,cloneStreamId=-1):
+        createStreamEP = '/config-media-live/v2/msl-origin/streams'
+        params = {}
+        params['cloneInternalSettingsFromStreamId'] = cloneStreamId
+        if self.accountSwitchKey:
+            params["accountSwitchKey"] = self.accountSwitchKey
+            status,updateStreamJson = self._prdHttpCaller.postResult(createStreamEP,jsondata,params=params,headers=None)
+            print(status,updateStreamJson)
+            return status,updateStreamJson
+        else:
+            status,updateStreamJson = self._prdHttpCaller.postResult(createStreamEP,jsondata,params=params,headers=None)
+            print(status,updateStreamJson)
+            return status,updateStreamJson
+
 

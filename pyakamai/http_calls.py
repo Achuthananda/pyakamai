@@ -42,8 +42,8 @@ class EdgeGridHttpCaller():
         return parse.urljoin(url, path)
 
     def getResult(self, endpoint,params=None,headers=None):
-        print(params)
-        print(headers)
+        #print(params)
+        #print(headers)
         """ Executes a GET API call and returns the JSON output """
         path = endpoint
         endpoint_result = self.session.get(parse.urljoin(self.baseurl,path), headers=headers,params=params)
@@ -79,9 +79,13 @@ class EdgeGridHttpCaller():
         path = endpoint
         endpoint_result = self.session.post(parse.urljoin(self.baseurl, path), data=body, headers=headers, params=params)
         status = endpoint_result.status_code
+        #print(status)
+        #print(endpoint_result.headers)
         if self.verbose:
             print("LOG: POST %s %s %s" % (path, status, endpoint_result.headers["content-type"]))
         if status == 204:
+            return status,{}
+        if status == 202:
             return status,{}
         self.httpErrors(endpoint_result.status_code, path, endpoint_result.json())
 

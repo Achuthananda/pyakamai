@@ -20,6 +20,8 @@ from .akamaigtm import AkamaiGTM
 from .akamaiiam import AkamaiIdentity 
 from .akamaicpcode import AkamaiCPCode
 from .akamaialerts import AkamaiAlerts
+from .akamaitestcenter import AkamaiTestCenter
+from .akamaiappsec import AkamaiAppSec
 import sys
 import os
 import requests
@@ -116,5 +118,11 @@ class pyakamai():
         
         elif product in ['alerts']:
             class_obj = AkamaiAlerts(self._prdHttpCaller,self.accountSwitchKey,*args)  
+
+        elif product in ['testcenter','tc']:
+            class_obj = AkamaiTestCenter(self._prdHttpCaller,self.accountSwitchKey,*args)
+        
+        elif product in ['security','appsec','ksd']:
+            class_obj = AkamaiAppSec(self._prdHttpCaller,self.accountSwitchKey,*args)
 
         return class_obj

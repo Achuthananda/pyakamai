@@ -213,6 +213,26 @@ class AkamaiProperty():
         for hostname in  getHostnameJson["hostnames"]["items"]:
             hostNameList.append(hostname["cnameFrom"])
         return hostNameList
+    
+    def getEdgeHostName(self,version,domainName):
+        if self._invalidconfig == True:
+            print("No Configuration Found")
+            return []
+        getHostNameEndPoint = '/papi/v1/properties/{property_id}/versions/{new_version}/hostnames'.format(property_id=self.propertyId ,new_version=version)
+        params = {}
+        params["contractId"] =self.contractId
+        params["groupId"] = self.groupId
+
+        if self.accountSwitchKey:
+            params["accountSwitchKey"] = self.accountSwitchKey
+
+        status,getHostnameJson = self._prdHttpCaller.getResult(getHostNameEndPoint,params)
+        if 'hostnames' not in getHostnameJson:
+            return []
+        for hostname in  getHostnameJson["hostnames"]["items"]:
+            if domainName == hostname["cnameFrom"]:
+                return hostname["cnameTo"]
+        return ''
 
 
     def createVersion(self,baseVersion):
@@ -271,7 +291,7 @@ class AkamaiProperty():
         else:
             return False
 
-    def activateProduction(self,version,notes,email_list,peer_review_email,customer_email):
+    def activateProduction(self,version,notes,email_list,peer_review_email,customer_email,useFastFallback=True):
         if self._invalidconfig == True:
             print("No Configuration Found")
             return False
@@ -285,7 +305,7 @@ class AkamaiProperty():
         data['notifyEmails'] = email_list
         data['fastPush'] = True
         data['ignoreHttpErrors'] = False
-        data['useFastFallback'] = False
+        data['useFastFallback'] = useFastFallback
 
         complianceRecord = {}
         complianceRecord['noncomplianceReason'] = "NONE"
@@ -306,6 +326,25 @@ class AkamaiProperty():
             return True
         else:
             return False
+        
+    def generateDVChallenges(self,hostnameArray):
+        if self._invalidconfig == True:
+            print("No Configuration Found")
+            return -1
+        ep = '/papi/v1/hostnames/certificate-challenges'
+
+        data = {}
+        data['cnamesFrom'] = hostnameArray
+        json_data = json.dumps(data)
+
+        if self.accountSwitchKey:
+            params = {'accountSwitchKey':self.accountSwitchKey}
+            status,result = self._prdHttpCaller.postResult(ep,json_data,params)
+        else:
+            status,result = self._prdHttpCaller.postResult(ep,json_data)
+
+        return result
+
 
     def __parseChildCriteriaBehaviors(self,rule_list,level=0):
         if len(rule_list) == 0:
@@ -567,9 +606,8 @@ class AkamaiProperty():
         propruleInfo_json = json.dumps(ruleTree,indent=2)
         status = self.updateRuleTree(version,propruleInfo_json)
         return status
-
-    def addHostname(self,version,hostname,edgehostname):
-        print(version,hostname,edgehostname)
+    
+    def removeHostname(self,version,hostname):
         if self._invalidconfig == True:
             print("No Configuration Found")
             return []
@@ -584,7 +622,53 @@ class AkamaiProperty():
             params["accountSwitchKey"] = self.accountSwitchKey
 
         getstatus,getHostnameJson = self._prdHttpCaller.getResult(getHostNameEndPoint,params)
-        print(getHostnameJson)
+        #print(getHostnameJson)
+        property_hostnames = getHostnameJson["hostnames"]["items"]
+
+        if len(property_hostnames) > 0:
+            for item in property_hostnames:
+                if item['cnameFrom'] == hostname:
+                    property_hostnames.remove(item)
+
+            for item in property_hostnames:
+                if 'edgeHostnameId' in item:
+                    del item['edgeHostnameId']
+
+        
+        headers = {}
+        headers['content-type']=  'application/json'
+
+        property_hostname_data = json.dumps(property_hostnames)
+        removeHostNamesEndPoint = '/papi/v1/properties/{property_id}/versions/{newversion}/hostnames'.format(property_id=self.propertyId,newversion=version)
+
+        retrycount = 0
+        while retrycount < 2:
+            status,addHostnameJson = self._prdHttpCaller.putResult(removeHostNamesEndPoint,property_hostname_data,headers,params)
+            #print(status)
+            if status == 200:
+                return True
+            retrycount = retrycount + 1
+            time.sleep(1)
+        return False   
+
+
+    def addHostname(self,version,hostname,edgehostname,certProvisioningType=None):
+        #print(version,hostname,edgehostname)
+        if self._invalidconfig == True:
+            print("No Configuration Found")
+            return []
+
+        #Get the Hostnames
+        getHostNameEndPoint = '/papi/v1/properties/{property_id}/versions/{new_version}/hostnames'.format(property_id=self.propertyId ,new_version=version)
+        params = {}
+        params["contractId"] =self.contractId
+        params["groupId"] = self.groupId
+
+        if self.accountSwitchKey:
+            params["accountSwitchKey"] = self.accountSwitchKey
+
+        getstatus,getHostnameJson = self._prdHttpCaller.getResult(getHostNameEndPoint,params)
+        #print(getHostnameJson)
         property_hostnames = getHostnameJson["hostnames"]["items"]
 
         if len(property_hostnames) > 0:
@@ -597,21 +681,26 @@ class AkamaiProperty():
                     del item['edgeHostnameId']
 
         item = {}
-        item["cnameType"] = "EDGE_HOSTNAME"
-        print('*'*80)
-        print(hostname,edgehostname)
+        if certProvisioningType == None:
+            item["certProvisioningType"] = "EDGE_HOSTNAME"
+            item["certProvisioningType"] ='CPS_MANAGED'
+        else:
+            item["certProvisioningType"] = "DEFAULT"
+        #print('*'*80)
+        #print(hostname,edgehostname)
         item["cnameFrom"] = hostname
         item["cnameTo"] = edgehostname
-        item["certProvisioningType"] =  "CPS_MANAGED"
-        print('*'*80)
-        print(item)
+        item["cnameType"] =  "EDGE_HOSTNAME"
+        #item["cnameType"] =  "CUSTOM"
+        #print('*'*80)
+        #print(item)
         if len(property_hostnames) == 0:
             property_hostnames.insert(0, item)
         else:
             property_hostnames.append(item)
 
-        print('----'*80)
-        print(property_hostnames)
+        #print('----'*80)
+        #print(property_hostnames)
 
         headers = {}
         #headers['PAPI-Use-Prefixes'] = True
@@ -619,12 +708,13 @@ class AkamaiProperty():
         headers['content-type']=  'application/json'
 
         property_hostname_data = json.dumps(property_hostnames)
+        #print(property_hostname_data)
         addHostNamesEndPoint = '/papi/v1/properties/{property_id}/versions/{newversion}/hostnames'.format(property_id=self.propertyId,newversion=version)
 
         retrycount = 0
         while retrycount < 2:
             status,addHostnameJson = self._prdHttpCaller.putResult(addHostNamesEndPoint,property_hostname_data,headers,params)
-            print(status)
+            #print(status)
             if status == 200:
                 return True
             retrycount = retrycount + 1
@@ -730,6 +820,23 @@ class AkamaiPropertyManager():
             contractsList.append(items["contractId"])
         return contractsList
 
+    def getProducts(self):
+        productList = []
+        ep = "/papi/v1/products"
+        contractsList = self.getContracts()
+        for contractID in contractsList:
+            params = {}
+            params['contractId'] = contractID
+            if self.accountSwitchKey:
+                params["accountSwitchKey"] = self.accountSwitchKey
+                status,getProductJson = self._prdHttpCaller.getResult(ep,params)
+            else:
+                status,getProductJson = self._prdHttpCaller.getResult(ep,params)
+            for items in getProductJson["products"]["items"]:
+                productList.append(items["productName"])
+        return productList
+
+
     def listCPCodes(self,contract_id,group_id):
         cpCodeList = []
         ep = '/papi/v1/cpcodes'
@@ -741,10 +848,41 @@ class AkamaiPropertyManager():
         try:
             status,getcpCodesJson = self._prdHttpCaller.getResult(ep,params=params)
             for items in getcpCodesJson["cpcodes"]["items"]:
+                print(items)
                 cpCodeList.append(items["cpcodeId"])
         except Exception as e:
             return []
         return cpCodeList
+    
+    def getCPCode(self,contract_id,group_id,cpcodeId):
+        ep = '/papi/v1/cpcodes/{}'.format(cpcodeId)
+        params = {}
+        params['contractId'] = contract_id
+        params['groupId'] = group_id
+        if self.accountSwitchKey:
+            params["accountSwitchKey"] = self.accountSwitchKey
+        try: 
+            status,getcpCodesJson = self._prdHttpCaller.getResult(ep,params=params)
+            if status == 200:
+                for items in getcpCodesJson["cpcodes"]["items"]:
+                    print(items)
+                    return 1
+            else:
+                return 1
+        except Exception as e:
+            return 1
+        
+    def getAllCPCodes(self):
+        propertylist = []
+        groupJson = self.getGroups()
+        for items in groupJson["groups"]["items"]:
+            print("Fetching from group {}".format(items["groupId"]))
+            for ctrId in items["contractIds"]:
+                print("Fetching from Contract {}".format(ctrId))
+                status = self.getCPCode(ctrId,items["groupId"],'cpc_1655991')
+        return 1
+      
+    
 
     def getPropertiesofGroup(self,contractid,groupid):
         ep = '/papi/v1/properties'
@@ -813,7 +951,7 @@ class AkamaiPropertyManager():
                 if len(property_list) != 0:
                     for x in property_list:
                         propertylist.append(x)
-                print("*"*80)
+                #print("*"*80)
         return propertylist
     
     def getallProperties(self):
@@ -828,7 +966,7 @@ class AkamaiPropertyManager():
                 if len(property_list) != 0:
                     for x in property_list:
                         propertylist.append(x)
-            print("*"*80)
+            #print("*"*80)
         return propertylist
         
     def getCustomBehaviors(self):
@@ -862,7 +1000,7 @@ class AkamaiPropertyManager():
             print('Exception:',e)
             return []
         
-    def cloneProperty(self,contractId,groupId,referencePropertyId,version,newPropertyName):
+    def cloneProperty(self,contractId,groupId,referencePropertyId,version,newPropertyName,productId):
         version = int(version)
         params = {}
         if self.accountSwitchKey:
@@ -878,7 +1016,7 @@ class AkamaiPropertyManager():
                 "propertyId": referencePropertyId,
                 "version": version
             },
-            "productId": "prd_Fresca",
+            "productId": productId,
             "propertyName": newPropertyName
         }
 

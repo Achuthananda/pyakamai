@@ -1,0 +1,68 @@
+{
+    "name": "default",
+    "children": [],
+    "behaviors": [
+        {
+            "name": "origin",
+            "options": {
+                "cacheKeyHostname": "REQUEST_HOST_HEADER",
+                "compress": true,
+                "enableTrueClientIp": true,
+                "trueClientIpHeader": "True-Client-IP",
+                "trueClientIpClientSetting": false,
+                "forwardHostHeader": "CUSTOM",
+                "customForwardHostHeader": "floatingpointimages.s3.dualstack.ap-southeast-1.amazonaws.com",
+                "hostname": "floatingpointimages.s3.dualstack.ap-southeast-1.amazonaws.com",
+                "httpPort": 80,
+                "httpsPort": 443,
+                "originSni": true,
+                "verificationMode": "CUSTOM",
+                "originType": "CUSTOMER",
+                "customValidCnValues": [
+                    "{{Origin Hostname}}",
+                    "{{Forward Host Header}}"
+                ],
+                "originCertsToHonor": "STANDARD_CERTIFICATE_AUTHORITIES",
+                "standardCertificateAuthorities": [
+                    "akamai-permissive",
+                    "THIRD_PARTY_AMAZON"
+                ],
+                "originCertificate": "",
+                "ports": "",
+                "minTlsVersion": "DYNAMIC",
+                "ipVersion": "IPV4",
+                "tlsVersionTitle": ""
+            }
+        },
+        {
+            "name": "cpCode",
+            "options": {
+                "value": {
+                    "id": 1771079,
+                    "description": "fpimages.withfloats.com",
+                    "products": [
+                        "Fresca"
+                    ],
+                    "createdDate": 1738692699000,
+                   "cpCodeLimits": {
+                            "limit": 100,
+                            "currentCapacity": 29,
+                            "limitType": "global"
+                        },
+                    "name": "fpimages.withfloats.com"
+                }
+            }
+        },
+        {
+            "name": "caching",
+            "options": {
+                "behavior": "NO_STORE"
+            }
+        }
+    ],
+    "options": {
+        "is_secure": false
+    },
+    "variables": [],
+    "comments": "The Default Rule template contains all the necessary and recommended features. Rules are evaluated from top to bottom and the last matching rule wins."
+}

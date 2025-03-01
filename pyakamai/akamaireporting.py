@@ -52,5 +52,154 @@ class AkamaiReporting():
             return False,0
         
 
+    def getBytesTraffic(self,startTime,endTime,cpcodeList):
+        ep = '/reporting-api/v1/reports/bytes-by-time/versions/1/report-data'
+
+        metrics = [
+            "bytesOffload",
+            "bytesOffloadAvg",
+            "bytesOffloadMax",
+            "bytesOffloadMin",
+            "bytesOffloadSlope",
+            "edgeBitsPerSecond",
+            "edgeBitsPerSecondMax",
+            "edgeBitsPerSecondMin",
+            "edgeBytesSlope",
+            "edgeBytesTotal",
+            "midgressBitsPerSecond",
+            "midgressBitsPerSecondMax",
+            "midgressBitsPerSecondMin",
+            "midgressBytesSlope",
+            "midgressBytesTotal",
+            "originBitsPerSecond",
+            "originBitsPerSecondMax",
+            "originBitsPerSecondMin",
+            "originBytesSlope",
+            "originBytesTotal"
+        ]
+
+
+        payload = {
+            "objectIds": cpcodeList,
+            "metrics":metrics
+        }
+
+        params = {
+            'interval':'FIVE_MINUTES',
+            'start':startTime,
+            'end':endTime
+        }
+        if self.accountSwitchKey:
+            params['accountSwitchKey'] = self.accountSwitchKey
+
+        headers = {
+            "accept": "application/json",
+            "content-type": "application/json"
+        }
+
+        jsondata = json.dumps(payload,indent=2)
+        status,result = self._prdHttpCaller.postResult(ep,jsondata,headers=headers,params=params)
+        if status in [201,200]:
+            print("Succesfully Fetched the Bytes Traffic report")
+            return True,result
+        else:
+            print("Failed to fetch the URL report")
+            print(json.dumps(result,indent=2))
+            return False,{}
+
+
+    def getMidgressHitsTraffic(self,startTime,endTime,cpcodeList):
+        ep = '/reporting-api/v1/reports/midgresshits-by-time/versions/1/report-data'
+
+        metrics = [
+             "midgressHitsPerSecond",
+            "midgressHitsPerSecondMax",
+            "midgressHitsPerSecondMin",
+            "midgressHitsSlope",
+            "midgressHitsTotal"
+        ]
+
+        payload = {
+            "objectIds": cpcodeList,
+            "metrics":metrics
+        }
+    
+        params = {
+            'interval':'FIVE_MINUTES',
+            'start':startTime,
+            'end':endTime
+        }
+        if self.accountSwitchKey:
+            params['accountSwitchKey'] = self.accountSwitchKey
+
+        headers = {
+            "accept": "application/json",
+            "content-type": "application/json"
+        }
+
+        jsondata = json.dumps(payload,indent=2)
+        status,result = self._prdHttpCaller.postResult(ep,jsondata,headers=headers,params=params)
+        if status in [201,200]:
+            print("Succesfully Fetched the Midgress Traffic report")
+            return True,result
+        else:
+            print("Failed to fetch the URL report")
+            print(json.dumps(result,indent=2))
+            return False,{}
+
+
+    def getHitsTraffic(self,startTime,endTime,cpcodeList):
+        ep = '/reporting-api/v1/reports/hits-by-time/versions/1/report-data'
+
+        metrics = [
+            "edgeHitsPerSecond",
+            "edgeHitsPerSecondMax",
+            "edgeHitsPerSecondMin",
+            "edgeHitsSlope",
+            "edgeHitsTotal",
+            "hitsOffload",
+            "hitsOffloadAvg",
+            "hitsOffloadMax",
+            "hitsOffloadMin",
+            "hitsOffloadSlope",
+            "originHitsPerSecond",
+            "originHitsPerSecondMax",
+            "originHitsPerSecondMin",
+            "originHitsSlope",
+            "originHitsTotal"
+        ]
+
+        payload = {
+            "objectIds": cpcodeList,
+            "metrics":metrics
+        }
+    
+        params = {
+            'interval':'FIVE_MINUTES',
+            'start':startTime,
+            'end':endTime
+        }
+        if self.accountSwitchKey:
+            params['accountSwitchKey'] = self.accountSwitchKey
+
+        headers = {
+            "accept": "application/json",
+            "content-type": "application/json"
+        }
+
+        jsondata = json.dumps(payload,indent=2)
+        status,result = self._prdHttpCaller.postResult(ep,jsondata,headers=headers,params=params)
+        if status in [201,200]:
+            print("Succesfully Fetched the Hits Traffic report")
+            return True,result
+        else:
+            print("Failed to fetch the URL report")
+            print(json.dumps(result,indent=2))
+            return False,{}
+        
+
+    
+        
+
 
     

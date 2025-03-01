@@ -32,6 +32,24 @@ class AkamaiNetstorage():
     def __init__(self,prdHttpCaller,accountSwitchKey=None):
         self._prdHttpCaller = prdHttpCaller
         self.accountSwitchKey = accountSwitchKey
+        self.cpcodemapping = {}
+
+        ep = '/storage/v1/storage-groups'
+        params = {}
+        if self.accountSwitchKey:
+            params['accountSwitchKey']= self.accountSwitchKey
+            status,result = self._prdHttpCaller.getResult(ep,params=params)
+        else:
+            status,result = self._prdHttpCaller.getResult(ep)
+        
+        for item in result['items']:
+            for cpitem in item['cpcodes']:
+                self.cpcodemapping[cpitem['cpcodeId']] = []
+                for zone in item['zones']:
+                    self.cpcodemapping[cpitem['cpcodeId']].append(zone['zoneName'])
+
+        #print(self.cpcodemapping)
+    
         return None
 
     def liststorageGroups(self):
@@ -44,5 +62,20 @@ class AkamaiNetstorage():
             status,result = self._prdHttpCaller.getResult(ep)
 
         return status,result
+
+    def getStorageGroup(self,storageGroupId):
+        ep = '/storage/v1/storage-groups/{}'.format(storageGroupId)
+        params = {}
+        if self.accountSwitchKey:
+            params['accountSwitchKey']= self.accountSwitchKey
+            status,result = self._prdHttpCaller.getResult(ep,params=params)
+        else:
+            status,result = self._prdHttpCaller.getResult(ep)
+
+        return status,result
+    
+    def getZoneMapping(self,storageGroupId):
+        if storageGroupId in self.cpcodemapping.keys():
+            return self.cpcodemapping[storageGroupId]
 
    
