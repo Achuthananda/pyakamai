@@ -883,7 +883,6 @@ class AkamaiPropertyManager():
         return 1
       
     
-
     def getPropertiesofGroup(self,contractid,groupid):
         ep = '/papi/v1/properties'
         params = {}
@@ -999,7 +998,22 @@ class AkamaiPropertyManager():
         except Exception as e:
             print('Exception:',e)
             return []
-        
+
+    def deleteConfig(self,contractId,groupId,propertyId):
+        ep = '/papi/v1/properties/{}'.format(propertyId)
+        params = {}
+        if self.accountSwitchKey:
+            params["accountSwitchKey"] = self.accountSwitchKey
+        params["contractId"] = contractId
+        params["groupId"] = groupId
+
+        try:
+            status,deleteJson = self._prdHttpCaller.deleteResult(ep,params=params)
+            return status,deleteJson
+        except Exception as e:
+            print('Exception:',e)
+            return 0,{}
+
     def cloneProperty(self,contractId,groupId,referencePropertyId,version,newPropertyName,productId):
         version = int(version)
         params = {}

@@ -164,17 +164,21 @@ class EdgeGridHttpCaller():
             return status, None
 
 
-    def deleteResult(self, endpoint):
+    def deleteResult(self, endpoint,params=None,headers=None):
+        """ Executes a PUT API call and returns the JSON output """
+        if headers == None:
+            headers = {'content-type': 'application/json'}
+        path = endpoint
         """ Executes a DELETE API call and returns the JSON output """
-        endpoint_result = self.session.delete(parse.urljoin(self.baseurl,endpoint))
+        endpoint_result = self.session.delete(parse.urljoin(self.baseurl,path), headers=headers,params=params)
         status = endpoint_result.status_code
         if self.verbose:
             print("LOG: DELETE %s %s %s" % (endpoint, status, endpoint_result.headers["content-type"]))
         if status == 204:
-            return {}
+            return status,{}
         if self.verbose:
             print(">>>\n" + json.dumps(endpoint_result.json(), indent=2) + "\n<<<\n")
-        return endpoint_result.json()
+        return status,endpoint_result.json()
 
     def httpErrors(self, status_code, endpoint, result):
         """ Basic error handling """

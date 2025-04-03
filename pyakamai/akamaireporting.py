@@ -75,7 +75,8 @@ class AkamaiReporting():
             "originBitsPerSecondMax",
             "originBitsPerSecondMin",
             "originBytesSlope",
-            "originBytesTotal"
+            "originBytesTotal",
+            'bytesOffloadTotal'
         ]
 
 
@@ -112,7 +113,7 @@ class AkamaiReporting():
         ep = '/reporting-api/v1/reports/midgresshits-by-time/versions/1/report-data'
 
         metrics = [
-             "midgressHitsPerSecond",
+            "midgressHitsPerSecond",
             "midgressHitsPerSecondMax",
             "midgressHitsPerSecondMin",
             "midgressHitsSlope",
@@ -166,7 +167,8 @@ class AkamaiReporting():
             "originHitsPerSecondMax",
             "originHitsPerSecondMin",
             "originHitsSlope",
-            "originHitsTotal"
+            "originHitsTotal",
+            "hitsOffloadTotal"
         ]
 
         payload = {
