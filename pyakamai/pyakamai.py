@@ -22,6 +22,7 @@ from .akamaicpcode import AkamaiCPCode
 from .akamaialerts import AkamaiAlerts
 from .akamaitestcenter import AkamaiTestCenter
 from .akamaiappsec import AkamaiAppSec
+from .akamaibilling import AkamaiBilling
 import sys
 import os
 import requests
@@ -124,5 +125,8 @@ class pyakamai():
         
         elif product in ['security','appsec','ksd']:
             class_obj = AkamaiAppSec(self._prdHttpCaller,self.accountSwitchKey,*args)
+        
+        elif product in ['billing']:
+            class_obj = AkamaiBilling(self._prdHttpCaller,self.accountSwitchKey,*args)
 
         return class_obj

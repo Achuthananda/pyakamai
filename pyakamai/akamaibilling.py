@@ -28,33 +28,22 @@ else:
     # python2.7
     import urlparse as parse
 
-class AkamaiSiteShield():
+class AkamaiBilling():
     def __init__(self,prdHttpCaller,accountSwitchKey=None):
         self._prdHttpCaller = prdHttpCaller
         self.accountSwitchKey = accountSwitchKey
         return None
-
-    def listSSMaps(self):
-        ep = '/siteshield/v1/maps'
+    
+    def listCumulativeDailyUsage(self,productId,contractId,month):
+        """ List the listCumulativeDailyUsage per product and contract """
+        listGroupEndpoint = '/billing/v1/contracts/{}/products/{}/usage/daily'.format(contractId,productId)
         params = {}
+        params['month'] = month
         if self.accountSwitchKey:
             params['accountSwitchKey']= self.accountSwitchKey
-            status,result = self._prdHttpCaller.getResult(ep,params=params)
-        else:
-            status,result = self._prdHttpCaller.getResult(ep)
+        
+        status,response = self._prdHttpCaller.getResult(listGroupEndpoint,params)
+    
+        return status,response
 
-        return status,result
-
-    def getCurrentCIDRs(self,mapId):
-        ep = '/siteshield/v1/maps/' + str(mapId)
-        params = {}
-        if self.accountSwitchKey:
-            params['accountSwitchKey']= self.accountSwitchKey
-            status,result = self._prdHttpCaller.getResult(ep,params=params)
-        else:
-            status,result = self._prdHttpCaller.getResult(ep)
-
-        return status,result
-
-
-   
+    

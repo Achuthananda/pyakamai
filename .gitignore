@@ -3,6 +3,7 @@ app.py
 .github
 build/*
 dist/*
+rule.json
 addrule.py
 creds.json
 enrollment_data.json

@@ -73,6 +73,8 @@ class AkamaiGTM():
         else:
             status,getresultjson = self._prdHttpCaller.getResult(getEndpoint)
         return(getresultjson)
+
+    #def cloneProperty(self,srcdomainName,srcpropertyName,destdomainName,destPropertyName):        
     
     def getTargets(self,domainName,propertyName):
         getEndpoint = '/config-gtm/v1/domains/{}/properties/{}'.format(domainName,propertyName)

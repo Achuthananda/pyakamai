@@ -198,6 +198,156 @@ class AkamaiReporting():
             print("Failed to fetch the URL report")
             print(json.dumps(result,indent=2))
             return False,{}
+
+    def getHitsTrafficByResponseClass(self,startTime,endTime,cpcodeList):
+        ep = '/reporting-api/v1/reports/traffic-by-response/versions/1/report-data'
+
+        metrics = [
+            "edgeHits",
+            "edgeHitsPercent",
+            "originHits",
+            "originHitsPercent"
+        ]
+
+        payload = {
+            "objectIds": cpcodeList,
+            "metrics":metrics
+        }
+    
+        params = {
+            'interval':'FIVE_MINUTES',
+            'start':startTime,
+            'end':endTime
+        }
+        if self.accountSwitchKey:
+            params['accountSwitchKey'] = self.accountSwitchKey
+
+        headers = {
+            "accept": "application/json",
+            "content-type": "application/json"
+        }
+
+        jsondata = json.dumps(payload,indent=2)
+        status,result = self._prdHttpCaller.postResult(ep,jsondata,headers=headers,params=params)
+        if status in [201,200]:
+            print("Succesfully Fetched the Hits Traffic report")
+            return True,result
+        else:
+            print("Failed to fetch the URL report")
+            print(json.dumps(result,indent=2))
+            return False,{}
+        
+    def getTrafficByHostname(self,startTime,endTime,hostname):
+        ep = '/reporting-api/v2/reports/delivery/traffic/current/data'
+
+        metrics = [
+            "edgeHitsSum",
+            "edgeBytesSum",
+            "edgeResponseBytesSum",
+            "edgeRequestBytesSum",
+            "originHitsSum",
+            "originBytesSum",
+            "originResponseBytesSum",
+            "originRequestBytesSum",
+            "midgressHitsSum",
+            "midgressBytesSum",
+            "midgressResponseBytesSum",
+            "midgressRequestBytesSum",
+            "offloadedHitsPercentage",
+            "offloadedBytesPercentage",
+            "offloadedRequestBytesPercentage",
+            "offloadedResponseBytesPercentage"
+        ]
+
+        payload = {
+            "metrics":metrics,
+            "dimensions": ["hostname"],
+            "filters": [{
+                "dimensionName": "hostname",
+                "operator": "IN_LIST",
+                "expressions": [hostname]
+            }]
+        }
+    
+       
+        params = {
+            'start':startTime+'Z',
+            'end':endTime+'Z'
+        }
+    
+        if self.accountSwitchKey:
+            params['accountSwitchKey'] = self.accountSwitchKey
+
+        headers = {
+            "accept": "application/json",
+            "content-type": "application/json"
+        }
+
+        jsondata = json.dumps(payload,indent=2)
+        status,result = self._prdHttpCaller.postResult(ep,jsondata,headers=headers,params=params)
+        if status in [201,200]:
+            print("Succesfully Fetched the Hits Traffic report")
+            return True,result
+        else:
+            print("Failed to fetch the URL report")
+            print(json.dumps(result,indent=2))
+            return False,{}
+        
+    def getTrafficByCPCode(self,startTime,endTime,cpcodeList):
+        ep = '/reporting-api/v2/reports/delivery/traffic/current/data'
+
+        metrics = [
+            "edgeHitsSum",
+            "edgeBytesSum",
+            "edgeResponseBytesSum",
+            "edgeRequestBytesSum",
+            "originHitsSum",
+            "originBytesSum",
+            "originResponseBytesSum",
+            "originRequestBytesSum",
+            "midgressHitsSum",
+            "midgressBytesSum",
+            "midgressResponseBytesSum",
+            "midgressRequestBytesSum",
+            "offloadedHitsPercentage",
+            "offloadedBytesPercentage",
+            "offloadedRequestBytesPercentage",
+            "offloadedResponseBytesPercentage"
+        ]
+
+        payload = {
+            "metrics":metrics,
+            "dimensions": ["cpcode"],
+            "filters": [{
+                "dimensionName": "cpcode",
+                "operator": "IN_LIST",
+                "expressions": cpcodeList
+            }]
+        }
+    
+       
+        params = {
+            'start':startTime+'Z',
+            'end':endTime+'Z'
+        }
+    
+        if self.accountSwitchKey:
+            params['accountSwitchKey'] = self.accountSwitchKey
+
+        headers = {
+            "accept": "application/json",
+            "content-type": "application/json"
+        }
+
+        jsondata = json.dumps(payload,indent=2)
+        status,result = self._prdHttpCaller.postResult(ep,jsondata,headers=headers,params=params)
+        if status in [201,200]:
+            print("Succesfully Fetched the Hits Traffic report")
+            return True,result
+        else:
+            print("Failed to fetch the URL report")
+            print(json.dumps(result,indent=2))
+            return False,{}
         
 
     

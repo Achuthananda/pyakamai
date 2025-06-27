@@ -4,6 +4,7 @@ pyakamai/__init__.py
 pyakamai/akamaialerts.py
 pyakamai/akamaiapidefinition.py
 pyakamai/akamaiappsec.py
+pyakamai/akamaibilling.py
 pyakamai/akamaicasemanagement.py
 pyakamai/akamaichinacdn.py
 pyakamai/akamaicloudlets.py

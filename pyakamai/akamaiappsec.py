@@ -429,4 +429,78 @@ class AkamaiAppSec():
             print('{}:Error create the App Sec Config'.format(e),file=sys.stderr)
             return 0
 
+    def getCookieSetting(self,version):
+        try:
+            ep = '/appsec/v1/configs/{}/versions/{}/advanced-settings/cookie-settings'.format(self.configId,version)
+            params = {}
+            if self.accountSwitchKey != None:
+                params['accountSwitchKey'] = self.accountSwitchKey
+                
+            headers = {"accept": "application/json"}
+            status,resultJson = self._prdHttpCaller.getResult(ep,params,headers)
+            if status == 200:
+                return True,resultJson
+            else:
+                return False,''
+        except Exception as e:
+            print('{}:Error fetching the Staging Version of Security Policy'.format(e),file=sys.stderr)
+            return False,''
+    
+    def getEvasivePathMatchSetting(self,version):
+        try:
+            ep = '/appsec/v1/configs/{}/versions/{}/advanced-settings/evasive-path-match'.format(self.configId,version)
+            params = {}
+            if self.accountSwitchKey != None:
+                params['accountSwitchKey'] = self.accountSwitchKey
+                
+            headers = {"accept": "application/json"}
+            status,resultJson = self._prdHttpCaller.getResult(ep,params,headers)
+            if status == 200:
+                return True,resultJson
+            else:
+                return False,''
+        except Exception as e:
+            print('{}:Error fetching the Staging Version of Security Policy'.format(e),file=sys.stderr)
+            return False,''
+        
+    def getHTTPLoggingSetting(self,version):
+        try:
+            ep = '/appsec/v1/configs/{}/versions/{}/advanced-settings/logging'.format(self.configId,version)
+            params = {}
+            if self.accountSwitchKey != None:
+                params['accountSwitchKey'] = self.accountSwitchKey
+                
+            headers = {"accept": "application/json"}
+            status,resultJson = self._prdHttpCaller.getResult(ep,params,headers)
+            if status == 200:
+                return True,resultJson
+            else:
+                return False,''
+        except Exception as e:
+            print('{}:Error fetching the Staging Version of Security Policy'.format(e),file=sys.stderr)
+            return False,''
+
+    def getAttackPayloadLoggingSetting(self,version):
+        try:
+            ep = '/appsec/v1/configs/{}/versions/{}/advanced-settings/logging/attack-payload'.format(self.configId,version)
+            params = {}
+            if self.accountSwitchKey != None:
+                params['accountSwitchKey'] = self.accountSwitchKey
+                
+            headers = {"accept": "application/json"}
+            status,resultJson = self._prdHttpCaller.getResult(ep,params,headers)
+            if status == 200:
+                return True,resultJson
+            else:
+                return False,''
+        except Exception as e:
+            print('{}:Error fetching the Staging Version of Security Policy'.format(e),file=sys.stderr)
+            return False,''
+
+    
+
+
+
+
+
 
