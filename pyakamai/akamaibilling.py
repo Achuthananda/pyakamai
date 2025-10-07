@@ -34,9 +34,21 @@ class AkamaiBilling():
         self.accountSwitchKey = accountSwitchKey
         return None
     
-    def listCumulativeDailyUsage(self,productId,contractId,month):
+    def listCumulativeDailyUsagePerContract(self,productId,contractId,month):
         """ List the listCumulativeDailyUsage per product and contract """
         listGroupEndpoint = '/billing/v1/contracts/{}/products/{}/usage/daily'.format(contractId,productId)
+        params = {}
+        params['month'] = month
+        if self.accountSwitchKey:
+            params['accountSwitchKey']= self.accountSwitchKey
+        
+        status,response = self._prdHttpCaller.getResult(listGroupEndpoint,params)
+    
+        return status,response
+    
+    def listCumulativeDailyUsagePerRG(self,productId,reportingGroupId,month):
+        """ List the listCumulativeDailyUsage per product and contract """
+        listGroupEndpoint = '/billing/v1/reporting-groups/{}/products/{}/usage/daily'.format(reportingGroupId,productId)
         params = {}
         params['month'] = month
         if self.accountSwitchKey:

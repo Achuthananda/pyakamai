@@ -1,6 +1,7 @@
 README.md
 setup.py
 pyakamai/__init__.py
+pyakamai/akamaiaccessrevocation.py
 pyakamai/akamaialerts.py
 pyakamai/akamaiapidefinition.py
 pyakamai/akamaiappsec.py

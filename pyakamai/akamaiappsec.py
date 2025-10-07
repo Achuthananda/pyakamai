@@ -502,5 +502,3 @@ class AkamaiAppSec():
 
 
 
-
-

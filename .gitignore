@@ -1,5 +1,7 @@
 env/*
 app.py
+decomm.py
+*.xlsx
 .github
 build/*
 dist/*

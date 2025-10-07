@@ -42,8 +42,6 @@ class EdgeGridHttpCaller():
         return parse.urljoin(url, path)
 
     def getResult(self, endpoint,params=None,headers=None):
-        #print(params)
-        #print(headers)
         """ Executes a GET API call and returns the JSON output """
         path = endpoint
         endpoint_result = self.session.get(parse.urljoin(self.baseurl,path), headers=headers,params=params)
@@ -59,15 +57,22 @@ class EdgeGridHttpCaller():
             #print("Error decoding JSON")
             return status, None
         
+        
     def getFileResult(self, endpoint,headers=None,params=None):
         """ Executes a GET API call and returns the JSON output """
         path = endpoint
         endpoint_result = self.session.get(parse.urljoin(self.baseurl,path), headers=headers,params=params)
         status = endpoint_result.status_code
         if self.verbose: print (">>>\n" +endpoint_result.text + "\n<<<\n")
-        if self.verbose: print( "LOG: GET %s %s %s" % (endpoint,status,endpoint_result.headers["content-disposition"]))
-        #self.httpErrors(endpoint_result.status_code, path, endpoint_result)
-        return status,endpoint_result.text
+        if "content-disposition" in endpoint_result.headers:
+            if self.verbose: print( "LOG: GET %s %s %s" % (endpoint,status,endpoint_result.headers["content-disposition"]))
+            self.httpErrors(endpoint_result.status_code, path, endpoint_result)
+        if "content-type" in endpoint_result.headers:
+            if endpoint_result.headers['content-type']== 'application/json':
+                json_data = endpoint_result.json()
+                return status, json_data
+        else:
+            return status,endpoint_result.text
 
 
 

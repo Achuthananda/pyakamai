@@ -23,6 +23,7 @@ from .akamaialerts import AkamaiAlerts
 from .akamaitestcenter import AkamaiTestCenter
 from .akamaiappsec import AkamaiAppSec
 from .akamaibilling import AkamaiBilling
+from .akamaiaccessrevocation import AkamaiAccessRevocation
 import sys
 import os
 import requests
@@ -128,5 +129,8 @@ class pyakamai():
         
         elif product in ['billing']:
             class_obj = AkamaiBilling(self._prdHttpCaller,self.accountSwitchKey,*args)
+
+        elif product in ['accessrevocation','tokenrevocation']:
+            class_obj = AkamaiAccessRevocation(self._prdHttpCaller,self.accountSwitchKey,*args)
 
         return class_obj
