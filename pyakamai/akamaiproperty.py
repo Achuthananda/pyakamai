@@ -159,6 +159,23 @@ class AkamaiProperty():
             return -1
         return self.productionVersion
 
+    def getRuleFormat(self,version):
+        if self._invalidconfig == True:
+            print("No Configuration Found")
+            return []
+        ruleTreeEndPoint = "/papi/v1/properties/" + self.propertyId + "/versions/" +str(version) + "/rules"
+        params =    {
+                    'validateRules': 'false',
+                    'validateMode': 'false',
+                    'dryRun': 'true'
+                    }
+        if self.accountSwitchKey:
+            params["accountSwitchKey"] = self.accountSwitchKey
+
+        status,ruleTree = self._prdHttpCaller.getResult(ruleTreeEndPoint,params)
+        return ruleTree["ruleFormat"]
+    
+
     def getRuleTree(self,version):
         if self._invalidconfig == True:
             print("No Configuration Found")
@@ -763,6 +780,42 @@ class AkamaiProperty():
             start_index = end_index + len(end_tag)
         
         return advancedCPCodeList
+
+    def getSchema(self):
+        if self._invalidconfig == True:
+            print("No Configuration Found")
+            return []
+        version = self.getVersionofConfig()
+
+        getVersionEP = "/papi/v1/properties/{propertyId}/versions".format(propertyId=self.propertyId)
+        params = {}
+        if self.accountSwitchKey:
+            params["accountSwitchKey"] = self.accountSwitchKey
+            status,getVersionsJson = self._prdHttpCaller.getResult(getVersionEP,params)
+        else:
+            status,getVersionsJson = self._prdHttpCaller.getResult(getVersionEP)
+
+        for versionItem in getVersionsJson["versions"]["items"]:
+            if versionItem['propertyVersion'] == version:
+                productId = versionItem['productId']
+                ruleFormat = self.getRuleFormat(version)
+
+                #print(productId,ruleFormat)
+
+                getSchema = "/papi/v1/schemas/products/{}/{}".format(productId,ruleFormat)
+                params = {}
+                if self.accountSwitchKey:
+                    params["accountSwitchKey"] = self.accountSwitchKey
+                    status,getSchemaJson = self._prdHttpCaller.getResult(getSchema
+                    
+                    ,params)
+                else:
+                    status,getSchemaJson = self._prdHttpCaller.getResult(getSchema)
+                return getSchemaJson
+
+        return {}
+
+
 
 
 class AkamaiPropertyManager():

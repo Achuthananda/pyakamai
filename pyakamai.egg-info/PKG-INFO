@@ -1,12 +1,14 @@
 Metadata-Version: 2.1
 Name: pyakamai
-Version: 2.9
+Version: 2.83
 Summary: A Boto3 like SDK for Akamai
 Home-page: https://github.com/Achuthananda/pyakamai
 Author: Achuthananda M P
 Author-email: achuthadivine@gmail.com
+License: UNKNOWN
 Project-URL: Source, https://github.com/Achuthananda/pyakamai
 Keywords: Akamai Python CDN SDK Edge
+Platform: UNKNOWN
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
@@ -19,8 +21,6 @@ Classifier: Programming Language :: Python :: 3.10
 Classifier: Programming Language :: Python :: 3.11
 Requires-Python: >= 3.7
 Description-Content-Type: text/markdown
-Requires-Dist: edgegrid-python
-Requires-Dist: requests
 
 # pyakamai - The Akamai SDK for Python
 [![Package Version](http://img.shields.io/pypi/v/boto3.svg?style=flat)](https://pypi.org/project/pyakamai/)
@@ -393,3 +393,4 @@ caseList = caseManagementClient.listAllActiveCases(accountIds='F-AC879800')
 print(json.dumps(caseList,indent=2))
 
 ```
+

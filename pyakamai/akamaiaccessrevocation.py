@@ -86,15 +86,16 @@ class AkamaiAccessRevocation():
         else:
             return False 
         
-    def revokeToken(self,revocationListId,revocationTTL,tokenId):
+    def revokeToken(self,revocationListId,revocationTTL,tokenIdArray):
         ep = '/taas/v2/revocation-lists/{}/identifiers/add'.format(revocationListId)
         headers = {'Content-Type': 'application/json'}
 
         record =[]
-        item = {}
-        item['durationSeconds'] = revocationTTL
-        item['id'] = tokenId
-        record.append(item)
+        for tokenId in tokenIdArray:
+            item = {}
+            item['durationSeconds'] = revocationTTL
+            item['id'] = tokenId
+            record.append(item)
         
         recordjson = json.dumps(record)        
 
